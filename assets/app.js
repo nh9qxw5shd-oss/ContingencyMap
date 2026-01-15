@@ -3,7 +3,11 @@ const SUPABASE_URL = "https://ungtmfwxqawkdiflmora.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZ3RtZnd4cWF3a2RpZmxtb3JhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMDY4NjQsImV4cCI6MjA3NzY4Mjg2NH0.Yaq0XfbbkwxJDUoiPCS7bLVBy70Wa-NOOWIxkpRRxdc";
 
 // If you host the site publicly, treat ANON KEY as "public but limited" (RLS must protect writes).
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Reuse client if app.js gets loaded twice (prevents "already declared" crash)
+window.__supabaseClient = window.__supabaseClient
+  || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const supabase = window.__supabaseClient;
 
 // ====== MAP SETUP ======
 const map = L.map("map", { zoomControl: true }).setView([52.5, -1.6], 7);
