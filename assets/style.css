@@ -1,0 +1,143 @@
+:root{
+  --bg:#f3f4f6;
+  --ink:#111827;
+  --muted:#6b7280;
+  --card:#ffffff;
+  --stroke:#e5e7eb;
+  --accent:#111827;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+header{
+  background:var(--accent);
+  color:#f9fafb;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  margin:0;
+  font-size:18px;
+}
+
+.sub{
+  font-size:12px;
+  opacity:.85;
+  margin-top:2px;
+}
+
+.pill{
+  font-size:12px;
+  padding:6px 10px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  opacity:.9;
+}
+
+main{
+  display:grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap:14px;
+  padding:14px;
+  height: calc(100vh - 58px);
+}
+
+#map{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+#panel{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.panel-header{
+  padding:14px 14px 10px;
+  border-bottom:1px solid var(--stroke);
+}
+
+.panel-header h2{
+  margin:0;
+  font-size:16px;
+}
+
+.meta{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.panel-body{
+  padding:14px;
+  overflow:auto;
+}
+
+.card{
+  border:1px solid var(--stroke);
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  margin:0 0 6px 0;
+  font-size:14px;
+}
+
+.badge{
+  display:inline-block;
+  font-size:11px;
+  padding:3px 8px;
+  border:1px solid var(--stroke);
+  border-radius:999px;
+  color:var(--muted);
+  margin-left:8px;
+}
+
+.small{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.35;
+}
+
+.steps{
+  margin:10px 0 0 0;
+  padding:0 0 0 18px;
+}
+
+.steps li{
+  margin:6px 0;
+}
+
+.empty{
+  color:var(--muted);
+  font-size:13px;
+  border:1px dashed var(--stroke);
+  border-radius:12px;
+  padding:12px;
+}
+
+.error{
+  color:#991b1b;
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  padding:10px;
+  border-radius:10px;
+}
