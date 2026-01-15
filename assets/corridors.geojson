@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "corridor_code": "MML_BED_LUT",
+        "name": "MML: Bedford–Luton"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-0.466, 52.135],
+          [-0.417, 51.878]
+        ]
+      }
+    }
+  ]
+}
