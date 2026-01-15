@@ -164,10 +164,12 @@ async function loadCorridors(){
         }
       });
 
-      layer.bindTooltip(
-        feature?.properties?.name || feature?.properties?.corridor_code || "corridor",
-        { sticky: true }
-      );
+      const p = feature.properties || {};
+layer.bindTooltip(
+  `<b>${p.name || p.corridor_code}</b><br>${p.route || ""} – ${p.line || ""}`,
+  { sticky: true }
+);
+
     }
   }).addTo(map);
 
