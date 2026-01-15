@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contingency Plan Selector</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <header>
+    <div class="title">
+      <h1>Contingency Plan Selector</h1>
+      <div class="sub">Click a corridor on the map to load contingency playbooks.</div>
+    </div>
+    <div class="pill">MVP</div>
+  </header>
+
+  <main>
+    <section id="map"></section>
+
+    <aside id="panel">
+      <div class="panel-header">
+        <h2 id="panelTitle">Select a corridor</h2>
+        <div id="panelMeta" class="meta"></div>
+      </div>
+
+      <div id="panelBody" class="panel-body">
+        <div class="empty">
+          You know what to do. Click the railway.
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <!-- Supabase JS (UMD build) -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
