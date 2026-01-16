@@ -2,12 +2,8 @@
 const SUPABASE_URL = "https://ungtmfwxqawkdiflmora.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZ3RtZnd4cWF3a2RpZmxtb3JhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMDY4NjQsImV4cCI6MjA3NzY4Mjg2NH0.Yaq0XfbbkwxJDUoiPCS7bLVBy70Wa-NOOWIxkpRRxdc";
 
-// Reuse client if app.js gets loaded twice.
-// Also avoid naming the client variable "supabase" because the UMD bundle may already declare that identifier.
-window.__sbClient = window.__sbClient
-  || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-const sb = window.__sbClient;
+// If you host the site publicly, treat ANON KEY as "public but limited" (RLS must protect writes).
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ====== MAP SETUP ======
 const map = L.map("map", { zoomControl: true }).setView([52.5, -1.6], 7);
@@ -73,7 +69,7 @@ function renderPlans(corridor, plans){
   panelBody.innerHTML = html;
 }
 
-// ====== DECISION MODAL (for corridors with logic) ======
+// ====== DECISION MODAL (for corridors with multiple plan options) ======
 let __decisionModalInjected = false;
 
 function ensureDecisionModal(){
@@ -82,86 +78,19 @@ function ensureDecisionModal(){
 
   const style = document.createElement("style");
   style.textContent = `
-    .modalOverlay{
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-      padding: 16px;
-    }
-    .modalCard{
-      width: min(520px, 100%);
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      overflow: hidden;
-      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-    }
-    .modalHead{
-      padding: 14px 16px;
-      background: #111827;
-      color: #f9fafb;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .modalHead h3{
-      margin: 0;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
-    .modalBody{
-      padding: 14px 16px;
-      color: #111827;
-    }
-    .modalQuestion{
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-    }
-    .modalHint{
-      font-size: 12px;
-      opacity: 0.75;
-      margin: 0 0 12px 0;
-    }
-    .modalBtns{
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .modalBtn{
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      border-radius: 10px;
-      padding: 10px 12px;
-      text-align: left;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .modalBtn:hover{
-      background: #f3f4f6;
-    }
-    .modalBtn small{
-      display: block;
-      font-weight: 500;
-      opacity: 0.8;
-      margin-top: 3px;
-    }
-    .modalClose{
-      border: 0;
-      background: transparent;
-      color: #f9fafb;
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      padding: 4px 8px;
-      opacity: 0.85;
-    }
-    .modalClose:hover{ opacity: 1; }
+    .modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;}
+    .modalCard{width:min(560px,100%);background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);overflow:hidden;font-family:system-ui,-apple-system,Segoe UI,sans-serif;}
+    .modalHead{padding:14px 16px;background:#111827;color:#f9fafb;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    .modalHead h3{margin:0;font-size:14px;font-weight:800;letter-spacing:.2px;}
+    .modalBody{padding:14px 16px;color:#111827;}
+    .modalQuestion{font-size:14px;font-weight:800;margin:0 0 8px 0;}
+    .modalHint{font-size:12px;opacity:.75;margin:0 0 12px 0;}
+    .modalBtns{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px;}
+    .modalBtn{border:1px solid #e5e7eb;background:#f9fafb;border-radius:10px;padding:10px 12px;text-align:left;cursor:pointer;font-weight:800;font-size:13px;}
+    .modalBtn:hover{background:#f3f4f6;}
+    .modalBtn small{display:block;font-weight:500;opacity:.85;margin-top:3px;}
+    .modalClose{border:0;background:transparent;color:#f9fafb;cursor:pointer;font-size:18px;line-height:1;padding:4px 8px;opacity:.85;}
+    .modalClose:hover{opacity:1;}
   `;
   document.head.appendChild(style);
 }
@@ -223,9 +152,7 @@ function showChoiceModal({ title, question, hint, choices }){
     overlay.appendChild(card);
     document.body.appendChild(overlay);
 
-    function onKey(e){
-      if (e.key === "Escape") cleanup(null);
-    }
+    function onKey(e){ if (e.key === "Escape") cleanup(null); }
     document.addEventListener("keydown", onKey);
 
     function cleanup(val){
@@ -234,18 +161,15 @@ function showChoiceModal({ title, question, hint, choices }){
       resolve(val);
     }
 
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) cleanup(null);
-    });
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) cleanup(null); });
   });
 }
 
-// KTN_SAC decision tree -> plan_code
 async function decidePlanForKTN_SAC(){
   const blockType = await showChoiceModal({
     title: "Kentish Town ↔ St Albans",
     question: "What’s the infrastructure state?",
-    hint: "We’ll pick the correct MML plan based on this.",
+    hint: "We’ll pick the correct plan based on your answers.",
     choices: [
       { value: "FULL", label: "Full block", sub: "No usable route through the affected section" },
       { value: "PARTIAL", label: "Reduced capacity", sub: "Partial block / degraded operation" }
@@ -258,48 +182,57 @@ async function decidePlanForKTN_SAC(){
       title: "Full block (MML)",
       question: "Where is the full block?",
       choices: [
-        { value: "SAC_RDL", label: "St Albans → Radlett", sub: "Maps to MML-6" },
-        { value: "RDL_KTN", label: "Radlett → Kentish Town", sub: "Maps to MML-7" }
+        { value: "MML-6", label: "St Albans → Radlett", sub: "Plan MML-6" },
+        { value: "MML-7", label: "Radlett → Kentish Town", sub: "Plan MML-7" }
       ]
     });
-    if (!section) return null;
-    return section === "SAC_RDL" ? "MML-6" : "MML-7";
+    return section || null;
   }
 
-  // PARTIAL
   const section = await showChoiceModal({
     title: "Reduced capacity (MML)",
     question: "Which section is constrained?",
     choices: [
-      { value: "SAC_RDL", label: "St Albans → Radlett", sub: "Fast/Slow line reduced capacity variants" },
-      { value: "RDL_WHS", label: "Radlett → West Hampstead South", sub: "Fast/Slow line reduced capacity variants" },
-      { value: "SAC_KTN", label: "St Albans → Kentish Town", sub: "Carlton Road Jn / red status style constraint" }
+      { value: "SAC_RDL", label: "St Albans → Radlett", sub: "Choose FAST or SLOW variant" },
+      { value: "RDL_WHS", label: "Radlett → West Hampstead South", sub: "Choose FAST or SLOW variant" },
+      { value: "MML-7C", label: "St Albans → Kentish Town", sub: "Carlton Road Jn / red-status constraint" }
     ]
   });
   if (!section) return null;
 
-  if (section === "SAC_KTN"){
-    return "MML-7C";
-  }
+  if (section === "MML-7C") return "MML-7C";
 
   const lineType = await showChoiceModal({
     title: "Reduced capacity detail",
     question: "Which lines are impacted?",
     hint: "Pick the constrained pair.",
     choices: [
-      { value: "FAST", label: "Fast lines reduced capacity", sub: "Maps to MML-7A" },
-      { value: "SLOW", label: "Slow lines reduced capacity", sub: "Maps to MML-7B" }
+      { value: "MML-7A", label: "Fast lines reduced capacity", sub: "Plan MML-7A" },
+      { value: "MML-7B", label: "Slow lines reduced capacity", sub: "Plan MML-7B" }
     ]
   });
-  if (!lineType) return null;
 
-  return lineType === "FAST" ? "MML-7A" : "MML-7B";
+  return lineType || null;
 }
+
+async function decidePlanForSAC(){
+  const blockType = await showChoiceModal({
+    title: "St Albans",
+    question: "What’s the scenario at St Albans?",
+    choices: [
+      { value: "MML-5", label: "Full block", sub: "All lines blocked St Albans" },
+      { value: "MML-5A", label: "Partial block", sub: "Loss of St Albans Centre Sidings" }
+    ]
+  });
+
+  return blockType || null;
+}
+
 
 // ====== DATA FETCH ======
 async function fetchPlansForCorridor(corridor_code){
   // 1) find corridor id
-  const { data: corridor, error: cErr } = await sb
+  const { data: corridor, error: cErr } = await supabase
     .from("corridors")
     .select("id,corridor_code,name,route,line,notes")
     .eq("corridor_code", corridor_code)
@@ -309,7 +242,7 @@ async function fetchPlansForCorridor(corridor_code){
   if (!corridor) return { corridor: { corridor_code, name: corridor_code }, plans: [] };
 
   // 2) mapped plans (ordered by priority)
-  const { data: maps, error: mErr } = await sb
+  const { data: maps, error: mErr } = await supabase
     .from("corridor_plan_map")
     .select("priority, plan_id")
     .eq("corridor_id", corridor.id)
@@ -321,7 +254,7 @@ async function fetchPlansForCorridor(corridor_code){
   const planIds = maps.map(x => x.plan_id);
 
   // 3) pull plan headers
-  const { data: plans, error: pErr } = await sb
+  const { data: plans, error: pErr } = await supabase
     .from("contingency_plans")
     .select("id,plan_code,title,severity,owner_team,summary,assumptions,constraints")
     .in("id", planIds);
@@ -329,7 +262,7 @@ async function fetchPlansForCorridor(corridor_code){
   if (pErr) throw new Error(`Plan fetch failed: ${pErr.message}`);
 
   // 4) steps + docs (bulk)
-  const { data: steps, error: sErr } = await sb
+  const { data: steps, error: sErr } = await supabase
     .from("plan_steps")
     .select("plan_id,step_order,step_type,title,detail,owner_role")
     .in("plan_id", planIds)
@@ -337,7 +270,7 @@ async function fetchPlansForCorridor(corridor_code){
 
   if (sErr) throw new Error(`Steps fetch failed: ${sErr.message}`);
 
-  const { data: docs, error: dErr } = await sb
+  const { data: docs, error: dErr } = await supabase
     .from("plan_docs")
     .select("plan_id,label,url")
     .in("plan_id", planIds);
@@ -377,35 +310,45 @@ async function loadCorridors(){
           return;
         }
 
-        // Corridor with decision-tree logic
-        if (code === "KTN_SAC"){
+        // Corridors with decision logic
+        const needsDecision = (code === "KTN_SAC" || code === "SAC");
+
+        if (needsDecision){
           panelTitle.textContent = name;
           panelMeta.textContent = `Corridor: ${code}`;
-          panelBody.innerHTML = `<div class="empty">Select the scenario to load the correct plan.</div>`;
+          panelBody.innerHTML = `<div class="empty">Select a scenario to load the correct plan.</div>`;
 
-          const chosenPlanCode = await decidePlanForKTN_SAC();
+          const chosenPlanCode = (code === "KTN_SAC")
+            ? await decidePlanForKTN_SAC()
+            : await decidePlanForSAC();
+
           if (!chosenPlanCode){
-            panelBody.innerHTML = `<div class="empty">No selection made. Corridor remains clickable when you’re ready.</div>`;
+            panelBody.innerHTML = `<div class="empty">No selection made.</div>`;
             return;
           }
 
-          setPanelLoading(`${name}`, `Corridor: ${code} • Selected: ${chosenPlanCode}`);
+          setPanelLoading(name, `Corridor: ${code} • Selected: ${chosenPlanCode}`);
+
           try{
             const result = await fetchPlansForCorridor(code);
             const selected = (result.plans || []).find(p => p.plan_code === chosenPlanCode);
+
             if (!selected){
               setPanelError(`Selected plan ${chosenPlanCode} is not mapped to corridor ${code} in Supabase.`);
               return;
             }
+
             renderPlans(result.corridor, [selected]);
           } catch (e){
             setPanelError(e.message || String(e));
           }
+
           return;
         }
 
-        // Default behaviour: render all mapped plans (usually just 1)
+        // Default behaviour: load all mapped plans (usually one)
         setPanelLoading(name, `Corridor: ${code}`);
+
         try{
           const result = await fetchPlansForCorridor(code);
           renderPlans(result.corridor, result.plans);
@@ -414,12 +357,10 @@ async function loadCorridors(){
         }
       });
 
-      const p = feature.properties || {};
-layer.bindTooltip(
-  `<b>${p.name || p.corridor_code}</b><br>${p.route || ""} – ${p.line || ""}`,
-  { sticky: true }
-);
-
+      // cheap hover UX
+      layer.bindTooltip(feature?.properties?.name || feature?.properties?.corridor_code || "corridor", {
+        sticky: true
+      });
     }
   }).addTo(map);
 
@@ -433,3 +374,9 @@ layer.bindTooltip(
 loadCorridors().catch(err => {
   setPanelError(err.message || String(err));
 });
+
+
+
+
+
+
