@@ -3,7 +3,14 @@ const SUPABASE_URL = "https://ungtmfwxqawkdiflmora.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZ3RtZnd4cWF3a2RpZmxtb3JhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMDY4NjQsImV4cCI6MjA3NzY4Mjg2NH0.Yaq0XfbbkwxJDUoiPCS7bLVBy70Wa-NOOWIxkpRRxdc";
 
 // If you host the site publicly, treat ANON KEY as "public but limited" (RLS must protect writes).
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// IMPORTANT: don't name your client `supabase` because the UMD library already uses that global.
+if (!window.supabase) {
+  throw new Error("Supabase UMD not loaded. Check the <script> include in index.html.");
+}
+
+// Create once, reuse forever (prevents double-init + redeclare crashes on refresh)
+window.__sbClient = window.__sbClient || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.__sbClient;
 
 // ====== MAP SETUP ======
 const map = L.map("map", { zoomControl: true }).setView([52.5, -1.6], 7);
@@ -232,7 +239,7 @@ async function decidePlanForSAC(){
 // ====== DATA FETCH ======
 async function fetchPlansForCorridor(corridor_code){
   // 1) find corridor id
-  const { data: corridor, error: cErr } = await supabase
+  const { data: corridor, error: cErr } = await sb
     .from("corridors")
     .select("id,corridor_code,name,route,line,notes")
     .eq("corridor_code", corridor_code)
@@ -242,7 +249,7 @@ async function fetchPlansForCorridor(corridor_code){
   if (!corridor) return { corridor: { corridor_code, name: corridor_code }, plans: [] };
 
   // 2) mapped plans (ordered by priority)
-  const { data: maps, error: mErr } = await supabase
+  const { data: maps, error: mErr } = await sb
     .from("corridor_plan_map")
     .select("priority, plan_id")
     .eq("corridor_id", corridor.id)
@@ -254,7 +261,7 @@ async function fetchPlansForCorridor(corridor_code){
   const planIds = maps.map(x => x.plan_id);
 
   // 3) pull plan headers
-  const { data: plans, error: pErr } = await supabase
+  const { data: plans, error: pErr } = await sb
     .from("contingency_plans")
     .select("id,plan_code,title,severity,owner_team,summary,assumptions,constraints")
     .in("id", planIds);
@@ -262,7 +269,7 @@ async function fetchPlansForCorridor(corridor_code){
   if (pErr) throw new Error(`Plan fetch failed: ${pErr.message}`);
 
   // 4) steps + docs (bulk)
-  const { data: steps, error: sErr } = await supabase
+  const { data: steps, error: sErr } = await sb
     .from("plan_steps")
     .select("plan_id,step_order,step_type,title,detail,owner_role")
     .in("plan_id", planIds)
@@ -270,7 +277,7 @@ async function fetchPlansForCorridor(corridor_code){
 
   if (sErr) throw new Error(`Steps fetch failed: ${sErr.message}`);
 
-  const { data: docs, error: dErr } = await supabase
+  const { data: docs, error: dErr } = await sb
     .from("plan_docs")
     .select("plan_id,label,url")
     .in("plan_id", planIds);
