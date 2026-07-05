@@ -12,20 +12,54 @@
     attribution: "&copy; OpenStreetMap contributors",
   }).addTo(map);
 
-  // Real railway layout overlay (OpenRailwayMap)
+  // Optional detailed rail tiles (OpenRailwayMap) — off by default now that we
+  // have the authoritative Network Rail network.
   const railOverlay = L.tileLayer(
     "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
     {
       maxZoom: 19,
       opacity: 0.85,
       attribution:
-        'Rail overlay: <a href="https://www.openrailwaymap.org/">OpenRailwayMap</a> (CC-BY-SA)',
+        'Rail tiles: <a href="https://www.openrailwaymap.org/">OpenRailwayMap</a> (CC-BY-SA)',
     }
-  ).addTo(map);
+  );
 
   document.getElementById("railOverlayToggle").addEventListener("change", (e) => {
     if (e.target.checked) railOverlay.addTo(map);
     else map.removeLayer(railOverlay);
+  });
+
+  // ===== Network Rail network overlay (from the NR Track Model data pack) =====
+  // ELR route lines, rendered from a local reprojected/simplified extract.
+  CMap.nr = { byCode: new Map(), layer: null, ready: null };
+
+  CMap.nr.ready = (async function loadNR() {
+    try {
+      const res = await fetch("./assets/data/nwr_elrs.json", { cache: "force-cache" });
+      if (!res.ok) throw new Error("nwr_elrs.json " + res.status);
+      const fc = await res.json();
+      fc.features.forEach((f) => CMap.nr.byCode.set(f.properties.elr, f));
+
+      const renderer = L.canvas({ padding: 0.4 });
+      CMap.nr.layer = L.geoJSON(fc, {
+        style: { color: "#475569", weight: 1.6, opacity: 0.8 },
+        interactive: false,
+        renderer,
+        attribution: "Track data: Network Rail (open data)",
+      });
+      if (document.getElementById("nrOverlayToggle").checked) CMap.nr.layer.addTo(map);
+      return true;
+    } catch (err) {
+      console.warn("NR network unavailable:", err);
+      CMap.toast("Network Rail overlay could not be loaded.", "err");
+      return false;
+    }
+  })();
+
+  document.getElementById("nrOverlayToggle").addEventListener("change", (e) => {
+    if (!CMap.nr.layer) return;
+    if (e.target.checked) CMap.nr.layer.addTo(map);
+    else map.removeLayer(CMap.nr.layer);
   });
 
   // ===== Section layers =====

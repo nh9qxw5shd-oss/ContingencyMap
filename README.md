@@ -10,8 +10,12 @@ railway coverage grows.
 
 ## Using the map
 
-- The map fills the screen with the real railway layout overlaid (OpenRailwayMap tiles —
-  toggle with **Rail overlay**).
+- The map fills the screen with the **official Network Rail track network** overlaid
+  (from the NR Track Model open data pack — toggle with **NR network**). Detailed
+  OpenRailwayMap tiles are available as a secondary **Rail tiles** toggle.
+- **Search** (top bar): type an ELR code (e.g. `MLN1`) to zoom to that route, or
+  `ELR mileage` (e.g. `MLN1 30`) to jump to that exact mileage — the position is
+  interpolated between the two nearest Network Rail waymarks (mileposts).
 - Click a highlighted section to open its plans. If the section has more than one plan you
   get a scenario chooser, grouped by scenario (e.g. *Full block* / *Reduced capacity*).
 - Each plan shows severity, owner team, summary, assumptions/constraints, linked documents
@@ -24,14 +28,13 @@ Click **Admin** (top right) and enter the admin passcode. From the admin panel y
 ### Sections
 - **Create / edit / delete** sections (name, unique code, colour, notes, sort order).
 - **Draw the section on the map** three ways:
-  - **🛤 Trace railway** — the headline feature. It loads the *real* track layout from
-    OpenStreetMap for the area you're looking at (shown as blue guide lines), and every
-    click snaps to the railway and routes along it. Click where the section starts, then
-    click along to where it ends — you get the exact railway alignment in a few clicks.
-    Works across junctions; use **Undo** to remove the last leg. Zoom in (city level or
-    closer) before loading; pan and it loads more track as needed.
-  - **✏️ Draw line** — manual point-by-point line, for when OpenStreetMap data is
-    unavailable.
+  - **🛤 Trace railway** — the headline feature. It uses the **official Network Rail
+    track centre lines** (shown as blue guide lines, loaded on demand for the area
+    you're looking at), and every click snaps to the railway and routes along it. Click
+    where the section starts, then click along to where it ends — you get the exact
+    railway alignment in a few clicks. Works across junctions; use **Undo** to remove
+    the last leg. Pan and it loads more track automatically.
+  - **✏️ Draw line** — manual point-by-point line.
   - **⬠ Draw area** — click the corners of an area, for stations/depots (click zones).
 - Geometry changes are previewed dashed on the map and only persisted when you press
   **Save section**.
@@ -58,8 +61,25 @@ Static site (no build step) + Supabase.
 | `index.html` | page shell |
 | `assets/style.css` | styling |
 | `assets/data.js` | Supabase client, data access, shared UI helpers |
-| `assets/viewer.js` | map, section rendering, plan viewer |
+| `assets/viewer.js` | map, NR network overlay, section rendering, plan viewer |
+| `assets/search.js` | ELR / mileage search |
 | `assets/admin.js` | admin panel, drawing/tracing tools, plan editor |
+| `assets/data/nwr_elrs.json` | NR ELR route lines (overlay + search) |
+| `assets/data/nwr_waymarks.json` | NR waymarks/mileposts (mileage search) |
+| `assets/data/cl/*.json` | NR track centre-line tiles (trace tool, loaded on demand) |
+| `tools/convert_nwr.py` | regenerates all of `assets/data/` from the NR shapefiles |
+
+### Network Rail data
+
+The `assets/data/` files are derived from the Network Rail **Track Model** open data pack
+(`NWR_ELRs`, `NWR_Waymarks`, `NWR_TrackCentreLines`), reprojected from British National
+Grid to WGS84 and simplified for the web. When Network Rail publish an updated extract,
+regenerate with:
+
+```
+pip install pyshp pyproj
+python3 tools/convert_nwr.py /path/to/extracted/shapefiles
+```
 
 ### Data model (Supabase)
 

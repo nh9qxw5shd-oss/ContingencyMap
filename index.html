@@ -23,9 +23,17 @@
       <div class="brand-sub">Click a section of railway to view its contingency plans</div>
     </div>
     <div class="topbar-actions">
-      <label class="chip toggle" title="Show the real railway layout (OpenRailwayMap)">
-        <input type="checkbox" id="railOverlayToggle" checked />
-        <span>Rail overlay</span>
+      <div id="searchWrap">
+        <input type="text" id="searchInput" placeholder="Search ELR / mileage… e.g. MLN2 25.3" autocomplete="off" />
+        <div id="searchResults" class="hidden"></div>
+      </div>
+      <label class="chip toggle" title="Network Rail track network (from the NR data pack)">
+        <input type="checkbox" id="nrOverlayToggle" checked />
+        <span>NR network</span>
+      </label>
+      <label class="chip toggle" title="Detailed rail tiles (OpenRailwayMap)">
+        <input type="checkbox" id="railOverlayToggle" />
+        <span>Rail tiles</span>
       </label>
       <button class="chip" id="fitAllBtn" title="Zoom to all sections">Fit all</button>
       <button class="chip chip-accent" id="adminBtn">Admin</button>
@@ -78,6 +86,7 @@
 
   <script src="./assets/data.js"></script>
   <script src="./assets/viewer.js"></script>
+  <script src="./assets/search.js"></script>
   <script src="./assets/admin.js"></script>
 </body>
 </html>

@@ -231,9 +231,9 @@
         <button class="btn btn-sm btn-danger" id="toolClear">Clear</button>
       </div>
       <div class="small" style="margin-top:8px">
-        <b>Trace railway</b> is the quick way: it loads the real track layout from OpenStreetMap and
+        <b>Trace railway</b> is the quick way: it uses the official Network Rail track layout and
         snaps your clicks along it, so you get the exact railway alignment. Zoom in, click where the
-        section starts, then click along to where it ends.
+        section starts, then click along to where it ends — it loads more track as you pan.
       </div>
 
       <div class="btn-row">
@@ -366,10 +366,11 @@
   };
 
   const rail = {
-    nodes: new Map(),  // osm node id -> [lat, lng]
-    adj: new Map(),    // node id -> [{to, w}]
-    ways: [],          // [[latlng, ...], ...] one per OSM way, for the guide layer
-    seenWays: new Set(),
+    nodes: new Map(),   // node key "lng,lat" -> [lat, lng]
+    adj: new Map(),     // node key -> [{to, w}]
+    ways: [],           // [[latlng, ...], ...] one per NR segment, for the guide layer
+    seenSegs: new Set(),
+    loadedTiles: new Set(),
     loading: false,
   };
 
@@ -409,7 +410,8 @@
     if (mode === "trace") {
       setDrawBar("Trace: click on the railway where the section starts, then click along it. Each click follows the track.");
       showGuideLayer();
-      if (!rail.nodes.size) await loadRailsInView();
+      map.on("moveend", onTraceMove); // fetch more track tiles as the user pans
+      await loadRailsInView();
     } else if (mode === "line") {
       setDrawBar("Draw line: click to add points. Done to finish.");
     } else {
@@ -418,8 +420,13 @@
     updateDrawPreview();
   }
 
+  function onTraceMove() {
+    if (draw.mode === "trace") loadRailsInView(true);
+  }
+
   function stopDrawing() {
     map.off("click", onDrawClick);
+    map.off("moveend", onTraceMove);
     map.doubleClickZoom.enable();
     document.getElementById("map").classList.remove("drawing");
     drawBar.classList.add("hidden");
@@ -501,7 +508,7 @@
     if (draw.mode !== "trace") return;
 
     if (!rail.nodes.size) {
-      CMap.toast("No railway data loaded here yet — loading now…");
+      CMap.toast("No track data loaded here yet — loading now…");
       await loadRailsInView();
       if (!rail.nodes.size) return;
     }
@@ -544,78 +551,73 @@
     updateDrawPreview();
   }
 
-  // ----- OSM railway network via Overpass -----
+  // ----- Network Rail track centre-line network (local tiles from the NR data pack) -----
 
-  const OVERPASS_ENDPOINTS = [
-    "https://overpass-api.de/api/interpreter",
-    "https://overpass.kumi.systems/api/interpreter",
-  ];
+  const TILE_SIZE = 0.5; // degrees; must match the build pipeline
+
+  function nodeKey(lng, lat) { return lng + "," + lat; }
+
+  function integrateSegment(seg) {
+    const [aid, , , , , coords] = seg;
+    if (rail.seenSegs.has(aid) || coords.length < 2) return;
+    rail.seenSegs.add(aid);
+
+    const latlngs = [];
+    let prevKey = null, prevPos = null;
+    coords.forEach(([lng, lat]) => {
+      const key = nodeKey(lng, lat);
+      const pos = [lat, lng];
+      if (!rail.nodes.has(key)) rail.nodes.set(key, pos);
+      if (prevKey !== null && prevKey !== key) {
+        const w = haversine(prevPos, pos);
+        addEdge(prevKey, key, w);
+        addEdge(key, prevKey, w);
+      }
+      prevKey = key; prevPos = pos;
+      latlngs.push(pos);
+    });
+    rail.ways.push(latlngs);
+  }
 
   async function loadRailsInView(quiet) {
     if (rail.loading) return;
-    if (map.getZoom() < 11) {
-      CMap.toast("Zoom in a bit more before loading the railway layout (too large an area).", "err");
+    if (map.getZoom() < 10) {
+      if (!quiet) CMap.toast("Zoom in a bit more before loading the track layout (too large an area).", "err");
       return;
     }
-    rail.loading = true;
-    if (!quiet) setDrawBar("Loading real railway layout from OpenStreetMap…");
 
-    const b = map.getBounds().pad(0.15);
-    const bbox = [b.getSouth(), b.getWest(), b.getNorth(), b.getEast()]
-      .map((v) => v.toFixed(5)).join(",");
-    const query = `[out:json][timeout:30];way["railway"~"^(rail|light_rail|subway|narrow_gauge)$"](${bbox});(._;>;);out body;`;
-
-    let data = null, lastErr = null;
-    for (const url of OVERPASS_ENDPOINTS) {
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "data=" + encodeURIComponent(query),
-        });
-        if (!res.ok) throw new Error("Overpass returned " + res.status);
-        data = await res.json();
-        break;
-      } catch (err) { lastErr = err; }
+    const b = map.getBounds().pad(0.1);
+    const keys = [];
+    for (let tx = Math.floor(b.getWest() / TILE_SIZE); tx <= Math.floor(b.getEast() / TILE_SIZE); tx++) {
+      for (let ty = Math.floor(b.getSouth() / TILE_SIZE); ty <= Math.floor(b.getNorth() / TILE_SIZE); ty++) {
+        const k = tx + "_" + ty;
+        if (!rail.loadedTiles.has(k)) keys.push(k);
+      }
     }
+    if (!keys.length) return;
+
+    rail.loading = true;
+    if (!quiet && draw.mode === "trace") setDrawBar("Loading Network Rail track layout…");
+
+    let newSegs = 0, failed = 0;
+    await Promise.all(keys.map(async (k) => {
+      try {
+        const res = await fetch(`./assets/data/cl/${k}.json`, { cache: "force-cache" });
+        if (res.status === 404) { rail.loadedTiles.add(k); return; } // sea / no rail here
+        if (!res.ok) throw new Error("tile " + k + " -> " + res.status);
+        const data = await res.json();
+        (data.segs || []).forEach((seg) => { integrateSegment(seg); newSegs++; });
+        rail.loadedTiles.add(k);
+      } catch (err) { failed++; }
+    }));
 
     rail.loading = false;
-
-    if (!data) {
-      CMap.toast("Couldn't load railway data (OpenStreetMap busy?): " + (lastErr && lastErr.message) + " — you can still Draw line manually.", "err");
-      if (draw.mode === "trace") setDrawBar("Trace: railway data unavailable right now — try again, or use Draw line.");
-      return;
-    }
-
-    let newNodes = 0, newWays = 0;
-    (data.elements || []).forEach((el) => {
-      if (el.type === "node" && !rail.nodes.has(el.id)) {
-        rail.nodes.set(el.id, [el.lat, el.lon]);
-        newNodes++;
-      }
-    });
-    (data.elements || []).forEach((el) => {
-      if (el.type !== "way" || !Array.isArray(el.nodes) || rail.seenWays.has(el.id)) return;
-      rail.seenWays.add(el.id);
-      newWays++;
-      const wayCoords = [];
-      for (let i = 0; i < el.nodes.length - 1; i++) {
-        const a = el.nodes[i], b2 = el.nodes[i + 1];
-        const pa = rail.nodes.get(a), pb = rail.nodes.get(b2);
-        if (!pa || !pb) continue;
-        const w = haversine(pa, pb);
-        addEdge(a, b2, w);
-        addEdge(b2, a, w);
-        if (!wayCoords.length) wayCoords.push(pa);
-        wayCoords.push(pb);
-      }
-      if (wayCoords.length > 1) rail.ways.push(wayCoords);
-    });
-
     refreshGuideLayer();
+
     if (draw.mode === "trace") {
       setDrawBar("Trace: click on the railway where the section starts, then click along it. Each click follows the track.");
-      if (!quiet) CMap.toast(`Railway layout loaded (${newWays} tracks in view).`, "ok");
+      if (failed) CMap.toast("Some track data failed to load — pan slightly to retry, or use Draw line.", "err");
+      else if (!quiet && newSegs) CMap.toast(`Network Rail track layout loaded (${newSegs} track segments).`, "ok");
     }
   }
 
