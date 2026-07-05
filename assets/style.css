@@ -140,6 +140,7 @@ html,body{
 .loc-results button:last-child{ border-bottom:0; }
 .loc-results button:hover{ background:#f8fafc; }
 .loc-results .small{ display:block; }
+.field input.loc-invalid{ border-color:#fca5a5; background:#fef2f2; }
 
 .chip{
   display:inline-flex;

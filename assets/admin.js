@@ -214,8 +214,6 @@
           <input type="color" id="fColor" value="${esc(s.color || "#c2410c")}" /></div>
         <div class="field"><label>Notes / description</label>
           <input type="text" id="fDesc" value="${esc(s.description || "")}" /></div>
-        <div class="field" style="flex:0 0 90px"><label>Sort order</label>
-          <input type="number" id="fSort" value="${esc(s.sort_order)}" /></div>
       </div>
 
       <div class="section-divider">Map geometry</div>
@@ -271,7 +269,6 @@
       });
     };
     bind("#fName", "name");
-    bind("#fSort", "sort_order");
     bind("#fColor", "color");
     bind("#fDesc", "description");
 
@@ -758,46 +755,68 @@
     const btn = bodyEl.querySelector("#autoRouteBtn");
     if (!btn) return;
 
+    // warm the dataset so the first keystroke already filters
+    CMap.loadLocations().catch(() => {});
+
     [["A", "#locA", "#locAres"], ["B", "#locB", "#locBres"]].forEach(([key, inputSel, resSel]) => {
       const input = bodyEl.querySelector(inputSel);
       const results = bodyEl.querySelector(resSel);
       let t = null;
+      let current = []; // matches shown right now
+
+      function choose(l) {
+        sel[key] = l;
+        input.value = l.name;
+        input.classList.remove("loc-invalid");
+        results.classList.add("hidden");
+        btn.disabled = !(sel.A && sel.B);
+      }
+
+      async function refresh() {
+        const q = input.value.trim().toLowerCase();
+        if (!q) { results.classList.add("hidden"); input.classList.remove("loc-invalid"); return; }
+        let locs;
+        try { locs = await CMap.loadLocations(); }
+        catch (err) { return CMap.toast("Locations data could not be loaded: " + err.message, "err"); }
+
+        current = locs
+          .filter((l) => l.name.toLowerCase().includes(q) || (l.crs && l.crs.toLowerCase() === q))
+          .sort((a, b) => {
+            const ax = a.crs && a.crs.toLowerCase() === q ? 0 : a.name.toLowerCase().startsWith(q) ? 1 : 2;
+            const bx = b.crs && b.crs.toLowerCase() === q ? 0 : b.name.toLowerCase().startsWith(q) ? 1 : 2;
+            return ax - bx || (a.name < b.name ? -1 : 1);
+          })
+          .slice(0, 8);
+
+        // typed text IS one of the options (full name or CRS) -> select it automatically
+        const exact = current.find((l) => l.name.toLowerCase() === q || (l.crs && l.crs.toLowerCase() === q));
+        if (exact) return choose(exact);
+
+        input.classList.toggle("loc-invalid", !current.length);
+        results.innerHTML = current.length
+          ? current.map((l, i) => `
+              <button type="button" data-i="${i}">${esc(l.name)}
+                <span class="small">${l.kind === "j" ? "junction" : "station"}${l.crs ? " · " + esc(l.crs) : ""}</span>
+              </button>`).join("")
+          : `<div class="small" style="padding:8px 11px">No matching station or junction</div>`;
+        results.classList.remove("hidden");
+        results.querySelectorAll("button").forEach((b) => {
+          // mousedown, not click: it fires before the input's blur hides the list
+          b.addEventListener("mousedown", (e) => { e.preventDefault(); choose(current[Number(b.dataset.i)]); });
+        });
+      }
 
       input.addEventListener("input", () => {
         sel[key] = null;
         btn.disabled = true;
         clearTimeout(t);
-        t = setTimeout(async () => {
-          const q = input.value.trim().toLowerCase();
-          if (q.length < 2) { results.classList.add("hidden"); return; }
-          let locs;
-          try { locs = await CMap.loadLocations(); }
-          catch (err) { return CMap.toast("Locations data could not be loaded: " + err.message, "err"); }
-
-          const matches = locs
-            .filter((l) => l.name.toLowerCase().includes(q) || (l.crs && l.crs.toLowerCase() === q))
-            .sort((a, b) => {
-              const ax = a.crs && a.crs.toLowerCase() === q ? 0 : a.name.toLowerCase().startsWith(q) ? 1 : 2;
-              const bx = b.crs && b.crs.toLowerCase() === q ? 0 : b.name.toLowerCase().startsWith(q) ? 1 : 2;
-              return ax - bx || (a.name < b.name ? -1 : 1);
-            })
-            .slice(0, 8);
-
-          results.innerHTML = matches.map((l, i) => `
-            <button type="button" data-i="${i}">${esc(l.name)}
-              <span class="small">${l.kind === "j" ? "junction" : "station"}${l.crs ? " · " + esc(l.crs) : ""}</span>
-            </button>`).join("");
-          results.classList.toggle("hidden", !matches.length);
-          results.querySelectorAll("button").forEach((b) => {
-            b.addEventListener("click", () => {
-              const l = matches[Number(b.dataset.i)];
-              sel[key] = l;
-              input.value = l.name;
-              results.classList.add("hidden");
-              btn.disabled = !(sel.A && sel.B);
-            });
-          });
-        }, 150);
+        t = setTimeout(refresh, 80);
+      });
+      input.addEventListener("focus", refresh);
+      input.addEventListener("blur", () => setTimeout(() => results.classList.add("hidden"), 150));
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !sel[key] && current.length) { e.preventDefault(); choose(current[0]); }
+        if (e.key === "Escape") results.classList.add("hidden");
       });
     });
 
