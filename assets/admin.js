@@ -142,7 +142,7 @@
   function promptChangeCode() {
     const body = document.createElement("div");
     body.innerHTML = `
-      <div class="field"><label>New passcode (min 4 characters)</label>
+      <div class="field"><label>New passcode</label>
         <input type="text" id="ncInput" autocomplete="off" /></div>
       <div class="btn-row"><button class="btn btn-primary" id="ncGo">Change passcode</button></div>
     `;
