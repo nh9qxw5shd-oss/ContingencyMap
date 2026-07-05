@@ -82,10 +82,11 @@
     CMap.state.sections.forEach((section) => {
       if (!section.geometry || !section.geometry.type) return;
 
-      let layer;
+      const isLine = section.geometry.type === "LineString" || section.geometry.type === "MultiLineString";
+      let layer, hit;
       try {
         // white casing under lines makes them readable over the rail overlay
-        if (section.geometry.type === "LineString" || section.geometry.type === "MultiLineString") {
+        if (isLine) {
           const casing = L.geoJSON({ type: "Feature", geometry: section.geometry }, {
             style: { color: "#ffffff", weight: 10, opacity: 0.75 },
             interactive: false,
@@ -95,21 +96,30 @@
         layer = L.geoJSON({ type: "Feature", geometry: section.geometry }, {
           style: styleFor(section, false),
         });
+        // a thin line is a hopeless touch target on a phone — add a fat invisible hit zone
+        if (isLine) {
+          hit = L.geoJSON({ type: "Feature", geometry: section.geometry }, {
+            style: { color: "#000000", weight: 30, opacity: 0.002 },
+          });
+        }
       } catch (err) {
         console.warn("Bad geometry on section", section.code, err);
         return;
       }
 
-      layer.on("mouseover", () => layer.setStyle(styleFor(section, true)));
-      layer.on("mouseout", () => layer.setStyle(styleFor(section, false)));
-      layer.bindTooltip(section.name || section.code, { sticky: true });
-      layer.on("click", () => {
-        if (CMap.admin && CMap.admin.isDrawing && CMap.admin.isDrawing()) return; // let the draw tool handle it
-        if (CMap.admin && CMap.admin.active) CMap.admin.openSection(section.id);
-        else openViewer(section.id);
-      });
-
+      const wire = (target) => {
+        target.on("mouseover", () => layer.setStyle(styleFor(section, true)));
+        target.on("mouseout", () => layer.setStyle(styleFor(section, false)));
+        target.bindTooltip(section.name || section.code, { sticky: true });
+        target.on("click", () => {
+          if (CMap.admin && CMap.admin.isDrawing && CMap.admin.isDrawing()) return; // let the draw tool handle it
+          if (CMap.admin && CMap.admin.active) CMap.admin.openSection(section.id);
+          else openViewer(section.id);
+        });
+      };
+      wire(layer);
       sectionLayers.addLayer(layer);
+      if (hit) { wire(hit); sectionLayers.addLayer(hit); }
     });
   };
 
@@ -161,6 +171,8 @@
   }
   CMap.openViewer = openViewer;
 
+  const GROUP_ORDER = ["Full block", "Partial block", "Degraded conditions"];
+
   function renderChooser(section) {
     const groups = new Map(); // group label -> plans
     section.plans.forEach((p) => {
@@ -169,12 +181,19 @@
       groups.get(g).push(p);
     });
 
+    // fixed scenario order first, then any legacy groups, ungrouped last
+    const ordered = [
+      ...GROUP_ORDER.filter((g) => groups.has(g)),
+      ...[...groups.keys()].filter((g) => g && !GROUP_ORDER.includes(g)),
+      ...(groups.has("") ? [""] : []),
+    ];
+
     let html = `<div class="small" style="margin-bottom:10px">What's the scenario? Pick the option that matches the incident.</div>`;
-    groups.forEach((plans, group) => {
+    ordered.forEach((group) => {
       if (group) html += `<div class="group-label">${esc(group)}</div>`;
-      plans.forEach((p) => {
-        const label = p.scenario_label || p.title;
-        const sub = [p.plan_code, p.severity].filter(Boolean).join(" · ");
+      groups.get(group).forEach((p) => {
+        const label = p.plan_code || p.title;
+        const sub = p.title !== label ? p.title : "";
         html += `
           <button class="choice-btn" data-plan="${esc(p.id)}">
             ${esc(label)}
@@ -192,16 +211,40 @@
     });
   }
 
+  function actionClass(action) {
+    const a = String(action || "").toLowerCase();
+    if (a.startsWith("susp")) return "act-suspend";
+    if (a.startsWith("alter")) return "act-alter";
+    if (a.startsWith("norm")) return "act-normal";
+    return "";
+  }
+
   function renderPlanDetail(section, plan, withBack) {
-    const steps = Array.isArray(plan.steps) ? plan.steps : [];
+    const rows = Array.isArray(plan.steps) ? plan.steps : [];
     const docs = Array.isArray(plan.docs) ? plan.docs : [];
 
-    const stepsHtml = steps.map((s) => `
+    // service-group table (current format); legacy step rows still render as a list
+    const isTable = rows.length && rows[0].title === undefined;
+
+    const tableHtml = isTable ? `
+      <div class="table-wrap"><table class="svc-table">
+        <thead><tr><th>Service group</th><th>Origin / Destination</th><th>Action</th><th>Plan</th></tr></thead>
+        <tbody>
+          ${rows.map((r) => `
+            <tr>
+              <td><b>${esc(r.group)}</b></td>
+              <td>${esc(r.od)}</td>
+              <td><span class="act ${actionClass(r.action)}">${esc(r.action || "")}</span></td>
+              <td>${esc(r.plan)}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table></div>` : "";
+
+    const stepsHtml = !isTable ? rows.map((s) => `
       <li>
         ${s.step_type ? `<span class="step-type">${esc(s.step_type)}</span>` : ""}<b>${esc(s.title)}</b>
         ${s.detail ? `<div class="small">${esc(s.detail)}</div>` : ""}
-        ${s.owner_role ? `<div class="step-owner">Owner: ${esc(s.owner_role)}</div>` : ""}
-      </li>`).join("");
+      </li>`).join("") : "";
 
     const docsHtml = docs.map((d) => `
       <div class="small">📄 <a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label || d.url)}</a></div>`).join("");
@@ -209,15 +252,15 @@
     bodyEl.innerHTML = `
       ${withBack ? `<button class="back-link" id="viewerBackBtn">← All scenarios for this section</button>` : ""}
       <div class="card">
-        <h3>${esc(plan.title)}
-          ${plan.severity ? `<span class="badge ${CMap.severityClass(plan.severity)}">${esc(plan.severity)}</span>` : ""}
-        </h3>
-        ${plan.plan_code ? `<div class="small"><b>${esc(plan.plan_code)}</b>${plan.owner_team ? " · " + esc(plan.owner_team) : ""}</div>` : ""}
+        <h3>${esc(plan.plan_code || plan.title)}</h3>
+        ${plan.plan_code && plan.title && plan.title !== plan.plan_code ? `<div class="small"><b>${esc(plan.title)}</b></div>` : ""}
+        ${plan.scenario_group ? `<div class="small" style="margin-top:4px">${esc(plan.scenario_group)}</div>` : ""}
         ${plan.summary ? `<div class="small" style="margin-top:8px">${esc(plan.summary)}</div>` : ""}
         ${plan.assumptions ? `<div class="small" style="margin-top:8px"><b>Assumptions:</b> ${esc(plan.assumptions)}</div>` : ""}
         ${plan.constraints ? `<div class="small" style="margin-top:4px"><b>Constraints:</b> ${esc(plan.constraints)}</div>` : ""}
         ${docsHtml ? `<div style="margin-top:8px">${docsHtml}</div>` : ""}
       </div>
+      ${tableHtml ? `<div class="group-label">Service groups</div>${tableHtml}` : ""}
       ${stepsHtml ? `<div class="group-label">Steps</div><ol class="steps">${stepsHtml}</ol>` : ""}
     `;
 

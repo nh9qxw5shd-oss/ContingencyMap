@@ -300,6 +300,36 @@ html,body{
 }
 .step-owner{ font-size:11px; color:var(--muted); margin-top:2px; }
 
+/* service-group table in the plan viewer */
+.table-wrap{ overflow-x:auto; border:1px solid var(--stroke); border-radius:12px; background:#fff; }
+.svc-table{ border-collapse:collapse; width:100%; font-size:12.5px; min-width:400px; }
+.svc-table th{
+  text-align:left;
+  font-size:10.5px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:8px 10px;
+  border-bottom:1px solid var(--stroke);
+  background:#f8fafc;
+  white-space:nowrap;
+}
+.svc-table td{ padding:8px 10px; border-bottom:1px solid var(--stroke); vertical-align:top; }
+.svc-table tr:last-child td{ border-bottom:0; }
+.act{
+  display:inline-block;
+  font-size:11px;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  color:var(--muted);
+  white-space:nowrap;
+}
+.act-suspend{ background:#fef2f2; border-color:#fecaca; color:#b91c1c; }
+.act-alter{ background:#fffbeb; border-color:#fde68a; color:#b45309; }
+.act-normal{ background:#f0fdf4; border-color:#bbf7d0; color:#15803d; }
+
 .empty{
   color:var(--muted);
   font-size:13px;

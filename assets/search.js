@@ -117,7 +117,7 @@
       .map((l) => ({
         code: l.name,
         kind: l.kind === "j" ? "junction" : "station",
-        sub: l.crs || "",
+        sub: [l.elr, l.crs].filter(Boolean).join(" · "),
         go: () => goToLocation(l),
       }));
   }
