@@ -788,10 +788,6 @@
           })
           .slice(0, 8);
 
-        // typed text IS one of the options (full name or CRS) -> select it automatically
-        const exact = current.find((l) => l.name.toLowerCase() === q || (l.crs && l.crs.toLowerCase() === q));
-        if (exact) return choose(exact);
-
         input.classList.toggle("loc-invalid", !current.length);
         results.innerHTML = current.length
           ? current.map((l, i) => `
