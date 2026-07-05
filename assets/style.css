@@ -98,6 +98,48 @@ html,body{
 .search-item:last-child{ border-bottom:0; }
 .search-item:hover, .search-item.active{ background:#f8fafc; }
 .search-item span{ font-size:12px; color:var(--muted); }
+.search-kind{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  padding:2px 6px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  color:var(--muted);
+  margin-left:auto;
+  flex:none;
+}
+
+/* location pickers in the section editor */
+.loc-field{ position:relative; }
+.loc-results{
+  position:absolute;
+  top:100%;
+  left:0; right:0;
+  z-index:50;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:10px;
+  box-shadow:var(--shadow);
+  max-height:220px;
+  overflow-y:auto;
+}
+.loc-results button{
+  display:block;
+  width:100%;
+  text-align:left;
+  border:0;
+  border-bottom:1px solid var(--stroke);
+  background:transparent;
+  padding:8px 11px;
+  font-size:13px;
+  cursor:pointer;
+  color:var(--ink);
+}
+.loc-results button:last-child{ border-bottom:0; }
+.loc-results button:hover{ background:#f8fafc; }
+.loc-results .small{ display:block; }
 
 .chip{
   display:inline-flex;
@@ -432,16 +474,19 @@ html,body{
   z-index:1200;
   background:#0f172a;
   color:#f8fafc;
-  border-radius:999px;
+  border-radius:16px;
   box-shadow:var(--shadow);
-  padding:10px 12px 10px 18px;
+  padding:10px 14px;
   font-size:13px;
   font-weight:600;
   display:flex;
+  flex-wrap:wrap;
   align-items:center;
-  gap:14px;
+  gap:10px 14px;
+  width:max-content;
   max-width:calc(100vw - 24px);
 }
+#drawBarText{ flex:1 1 200px; min-width:0; }
 #drawBar .chip{ box-shadow:none; }
 .drawbar-btns{ display:flex; gap:6px; flex:none; }
 .hidden{ display:none !important; }

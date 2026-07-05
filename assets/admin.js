@@ -210,20 +210,31 @@
       <div class="field"><label>Name</label>
         <input type="text" id="fName" value="${esc(s.name)}" placeholder="e.g. Luton – Bedford" /></div>
       <div class="field-row">
-        <div class="field"><label>Code (unique)</label>
-          <input type="text" id="fCode" value="${esc(s.code)}" placeholder="e.g. LUT_BDM" /></div>
-        <div class="field" style="flex:0 0 130px"><label>Sort order</label>
-          <input type="number" id="fSort" value="${esc(s.sort_order)}" /></div>
-      </div>
-      <div class="field-row">
         <div class="field" style="flex:0 0 70px"><label>Colour</label>
           <input type="color" id="fColor" value="${esc(s.color || "#c2410c")}" /></div>
         <div class="field"><label>Notes / description</label>
           <input type="text" id="fDesc" value="${esc(s.description || "")}" /></div>
+        <div class="field" style="flex:0 0 90px"><label>Sort order</label>
+          <input type="number" id="fSort" value="${esc(s.sort_order)}" /></div>
       </div>
 
       <div class="section-divider">Map geometry</div>
       <div class="geom-status" id="geomStatus">${geometrySummary(s.geometry)}</div>
+
+      <div class="small" style="margin:12px 0 4px"><b>Route between two locations</b> — the easy way:</div>
+      <div class="field-row">
+        <div class="field loc-field">
+          <input type="text" id="locA" placeholder="From… e.g. St Albans City" autocomplete="off" />
+          <div class="loc-results hidden" id="locAres"></div>
+        </div>
+        <div class="field loc-field">
+          <input type="text" id="locB" placeholder="To… e.g. Radlett Junction" autocomplete="off" />
+          <div class="loc-results hidden" id="locBres"></div>
+        </div>
+      </div>
+      <button class="btn btn-sm" id="autoRouteBtn" disabled>⚡ Create route between locations</button>
+
+      <div class="small" style="margin:12px 0 4px"><b>Or draw on the map:</b></div>
       <div class="tool-grid">
         <button class="btn btn-sm" id="toolTrace" title="Click along the railway — the route follows the actual track">🛤 Trace railway</button>
         <button class="btn btn-sm" id="toolLine" title="Click points to draw a line by hand">✏️ Draw line</button>
@@ -231,9 +242,9 @@
         <button class="btn btn-sm btn-danger" id="toolClear">Clear</button>
       </div>
       <div class="small" style="margin-top:8px">
-        <b>Trace railway</b> is the quick way: it uses the official Network Rail track layout and
-        snaps your clicks along it, so you get the exact railway alignment. Zoom in, click where the
-        section starts, then click along to where it ends — it loads more track as you pan.
+        Pick a station/junction in each box and the section is routed along the official Network Rail
+        track automatically. <b>Trace railway</b> does the same via map clicks — each click snaps to
+        the track and follows it (then extend/trim with more clicks or Undo).
       </div>
 
       <div class="btn-row">
@@ -260,10 +271,11 @@
       });
     };
     bind("#fName", "name");
-    bind("#fCode", "code");
     bind("#fSort", "sort_order");
     bind("#fColor", "color");
     bind("#fDesc", "description");
+
+    setupLocationRouting();
 
     bodyEl.querySelector("#toolTrace").addEventListener("click", () => startDraw("trace"));
     bodyEl.querySelector("#toolLine").addEventListener("click", () => startDraw("line"));
@@ -287,15 +299,23 @@
     );
   }
 
+  function generateCode(name) {
+    const base = name.toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 24) || "SECTION";
+    const taken = new Set(CMap.state.sections.filter((x) => x.id !== A.editing.id).map((x) => x.code));
+    let code = base, n = 2;
+    while (taken.has(code)) code = base + "_" + n++;
+    return code;
+  }
+
   async function saveSection() {
     const s = A.editing;
-    if (!s.name.trim() || !s.code.trim()) {
-      return CMap.toast("A section needs at least a name and a unique code.", "err");
+    if (!s.name.trim()) {
+      return CMap.toast("Give the section a name first.", "err");
     }
     try {
       const saved = await CMap.saveSection({
         id: s.id,
-        code: s.code,
+        code: (s.code || "").trim() || generateCode(s.name),
         name: s.name,
         description: s.description || "",
         color: s.color,
@@ -407,6 +427,9 @@
     map.doubleClickZoom.disable();
     map.on("click", onDrawClick);
 
+    // On phones the panel covers the whole screen — get it out of the way while drawing
+    if (window.matchMedia("(max-width: 760px)").matches) panel.classList.remove("open");
+
     if (mode === "trace") {
       setDrawBar("Trace: click on the railway where the section starts, then click along it. Each click follows the track.");
       showGuideLayer();
@@ -433,6 +456,7 @@
     if (draw.previewLayer) { map.removeLayer(draw.previewLayer); draw.previewLayer = null; }
     hideGuideLayer();
     draw.mode = null;
+    if (A.active) panel.classList.add("open"); // bring the admin panel back (mobile)
   }
 
   function cancelDraw() {
@@ -579,6 +603,28 @@
     rail.ways.push(latlngs);
   }
 
+  async function loadTilesByKeys(keys) {
+    const need = keys.filter((k) => !rail.loadedTiles.has(k));
+    if (!need.length) return { newSegs: 0, failed: 0 };
+
+    let newSegs = 0, failed = 0;
+    await Promise.all(need.map(async (k) => {
+      try {
+        const res = await fetch(`./assets/data/cl/${k}.json`, { cache: "force-cache" });
+        if (res.status === 404) { rail.loadedTiles.add(k); return; } // sea / no rail here
+        if (!res.ok) throw new Error("tile " + k + " -> " + res.status);
+        const data = await res.json();
+        (data.segs || []).forEach((seg) => { integrateSegment(seg); newSegs++; });
+        rail.loadedTiles.add(k);
+      } catch (err) { failed++; }
+    }));
+    return { newSegs, failed };
+  }
+
+  function tileKey(lng, lat) {
+    return Math.floor(lng / TILE_SIZE) + "_" + Math.floor(lat / TILE_SIZE);
+  }
+
   async function loadRailsInView(quiet) {
     if (rail.loading) return;
     if (map.getZoom() < 10) {
@@ -590,27 +636,13 @@
     const keys = [];
     for (let tx = Math.floor(b.getWest() / TILE_SIZE); tx <= Math.floor(b.getEast() / TILE_SIZE); tx++) {
       for (let ty = Math.floor(b.getSouth() / TILE_SIZE); ty <= Math.floor(b.getNorth() / TILE_SIZE); ty++) {
-        const k = tx + "_" + ty;
-        if (!rail.loadedTiles.has(k)) keys.push(k);
+        keys.push(tx + "_" + ty);
       }
     }
-    if (!keys.length) return;
 
     rail.loading = true;
     if (!quiet && draw.mode === "trace") setDrawBar("Loading Network Rail track layout…");
-
-    let newSegs = 0, failed = 0;
-    await Promise.all(keys.map(async (k) => {
-      try {
-        const res = await fetch(`./assets/data/cl/${k}.json`, { cache: "force-cache" });
-        if (res.status === 404) { rail.loadedTiles.add(k); return; } // sea / no rail here
-        if (!res.ok) throw new Error("tile " + k + " -> " + res.status);
-        const data = await res.json();
-        (data.segs || []).forEach((seg) => { integrateSegment(seg); newSegs++; });
-        rail.loadedTiles.add(k);
-      } catch (err) { failed++; }
-    }));
-
+    const { newSegs, failed } = await loadTilesByKeys(keys);
     rail.loading = false;
     refreshGuideLayer();
 
@@ -717,6 +749,116 @@
       }
       return top;
     };
+  }
+
+  // ----- Route between two named locations (stations/junctions) -----
+
+  function setupLocationRouting() {
+    const sel = { A: null, B: null };
+    const btn = bodyEl.querySelector("#autoRouteBtn");
+    if (!btn) return;
+
+    [["A", "#locA", "#locAres"], ["B", "#locB", "#locBres"]].forEach(([key, inputSel, resSel]) => {
+      const input = bodyEl.querySelector(inputSel);
+      const results = bodyEl.querySelector(resSel);
+      let t = null;
+
+      input.addEventListener("input", () => {
+        sel[key] = null;
+        btn.disabled = true;
+        clearTimeout(t);
+        t = setTimeout(async () => {
+          const q = input.value.trim().toLowerCase();
+          if (q.length < 2) { results.classList.add("hidden"); return; }
+          let locs;
+          try { locs = await CMap.loadLocations(); }
+          catch (err) { return CMap.toast("Locations data could not be loaded: " + err.message, "err"); }
+
+          const matches = locs
+            .filter((l) => l.name.toLowerCase().includes(q) || (l.crs && l.crs.toLowerCase() === q))
+            .sort((a, b) => {
+              const ax = a.crs && a.crs.toLowerCase() === q ? 0 : a.name.toLowerCase().startsWith(q) ? 1 : 2;
+              const bx = b.crs && b.crs.toLowerCase() === q ? 0 : b.name.toLowerCase().startsWith(q) ? 1 : 2;
+              return ax - bx || (a.name < b.name ? -1 : 1);
+            })
+            .slice(0, 8);
+
+          results.innerHTML = matches.map((l, i) => `
+            <button type="button" data-i="${i}">${esc(l.name)}
+              <span class="small">${l.kind === "j" ? "junction" : "station"}${l.crs ? " · " + esc(l.crs) : ""}</span>
+            </button>`).join("");
+          results.classList.toggle("hidden", !matches.length);
+          results.querySelectorAll("button").forEach((b) => {
+            b.addEventListener("click", () => {
+              const l = matches[Number(b.dataset.i)];
+              sel[key] = l;
+              input.value = l.name;
+              results.classList.add("hidden");
+              btn.disabled = !(sel.A && sel.B);
+            });
+          });
+        }, 150);
+      });
+    });
+
+    btn.addEventListener("click", () => autoRouteBetween(sel.A, sel.B, btn));
+  }
+
+  async function autoRouteBetween(a, b, btn) {
+    if (!a || !b) return;
+    const s = A.editing;
+    btn.disabled = true;
+    btn.textContent = "Routing along the railway…";
+
+    try {
+      // load track tiles along the straight-line corridor (plus neighbours)
+      const keys = new Set();
+      const steps = Math.max(2, Math.ceil(Math.max(Math.abs(a.lat - b.lat), Math.abs(a.lng - b.lng)) / 0.15));
+      for (let i = 0; i <= steps; i++) {
+        const lat = a.lat + (b.lat - a.lat) * i / steps;
+        const lng = a.lng + (b.lng - a.lng) * i / steps;
+        const tx = Math.floor(lng / TILE_SIZE), ty = Math.floor(lat / TILE_SIZE);
+        for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) keys.add((tx + dx) + "_" + (ty + dy));
+      }
+      await loadTilesByKeys([...keys]);
+
+      let na = nearestNodeToLatLng([a.lat, a.lng], 2500);
+      let nb = nearestNodeToLatLng([b.lat, b.lng], 2500);
+      let path = na != null && nb != null ? shortestPath(na, nb) : null;
+
+      if (!path) {
+        // the railway may swing wide of the straight line — widen to the padded bounding box
+        const wide = [];
+        const x0 = Math.floor((Math.min(a.lng, b.lng) - 0.5) / TILE_SIZE), x1 = Math.floor((Math.max(a.lng, b.lng) + 0.5) / TILE_SIZE);
+        const y0 = Math.floor((Math.min(a.lat, b.lat) - 0.5) / TILE_SIZE), y1 = Math.floor((Math.max(a.lat, b.lat) + 0.5) / TILE_SIZE);
+        for (let tx = x0; tx <= x1; tx++) for (let ty = y0; ty <= y1; ty++) wide.push(tx + "_" + ty);
+        if (wide.length <= 90) {
+          await loadTilesByKeys(wide);
+          na = nearestNodeToLatLng([a.lat, a.lng], 2500);
+          nb = nearestNodeToLatLng([b.lat, b.lng], 2500);
+          path = na != null && nb != null ? shortestPath(na, nb) : null;
+        }
+      }
+
+      if (!path || path.length < 2) {
+        CMap.toast("Couldn't find a rail route between those locations — they may be on disconnected lines. Try Trace railway instead.", "err");
+        return;
+      }
+
+      s.geometry = {
+        type: "LineString",
+        coordinates: path.map((k) => { const p = rail.nodes.get(k); return [p[1], p[0]]; }),
+      };
+      if (!s.name.trim()) s.name = `${a.name} – ${b.name}`;
+      renderSectionEditor();
+      showEditPreview();
+      zoomToGeometry(s.geometry);
+      CMap.toast(`Route created along the railway (${path.length} points). Press “Save section” to keep it.`, "ok");
+    } finally {
+      // if the editor re-rendered, this button is detached — resetting it is harmless
+      btn.textContent = "⚡ Create route between locations";
+      btn.disabled = false;
+    }
   }
 
   // Guide layer: the loaded railway shown as snappable blue lines while tracing
