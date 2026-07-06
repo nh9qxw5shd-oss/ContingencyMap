@@ -199,9 +199,9 @@
       <button class="list-item" data-plan="${esc(p.id)}">
         <span style="flex:1">
           <span class="li-main">${esc(p.plan_code || p.title)}</span>
-          <span class="li-sub">${esc(p.scenario_label || p.title)}</span>
+          <span class="li-sub">${esc(p.title !== (p.plan_code || p.title) ? p.title : "")}</span>
         </span>
-        ${p.severity ? `<span class="badge ${CMap.severityClass(p.severity)}">${esc(p.severity)}</span>` : ""}
+        ${p.scenario_group ? `<span class="badge">${esc(p.scenario_group)}</span>` : ""}
       </button>`).join("");
 
     bodyEl.innerHTML = `
@@ -209,12 +209,6 @@
 
       <div class="field"><label>Name</label>
         <input type="text" id="fName" value="${esc(s.name)}" placeholder="e.g. Luton – Bedford" /></div>
-      <div class="field-row">
-        <div class="field"><label>Code (unique)</label>
-          <input type="text" id="fCode" value="${esc(s.code)}" placeholder="e.g. LUT_BDM" /></div>
-        <div class="field" style="flex:0 0 130px"><label>Sort order</label>
-          <input type="number" id="fSort" value="${esc(s.sort_order)}" /></div>
-      </div>
       <div class="field-row">
         <div class="field" style="flex:0 0 70px"><label>Colour</label>
           <input type="color" id="fColor" value="${esc(s.color || "#c2410c")}" /></div>
@@ -224,6 +218,21 @@
 
       <div class="section-divider">Map geometry</div>
       <div class="geom-status" id="geomStatus">${geometrySummary(s.geometry)}</div>
+
+      <div class="small" style="margin:12px 0 4px"><b>Route between two locations</b> — the easy way:</div>
+      <div class="field-row">
+        <div class="field loc-field">
+          <input type="text" id="locA" placeholder="From… e.g. St Albans City" autocomplete="off" />
+          <div class="loc-results hidden" id="locAres"></div>
+        </div>
+        <div class="field loc-field">
+          <input type="text" id="locB" placeholder="To… e.g. Radlett Junction" autocomplete="off" />
+          <div class="loc-results hidden" id="locBres"></div>
+        </div>
+      </div>
+      <button class="btn btn-sm" id="autoRouteBtn" disabled>⚡ Create route between locations</button>
+
+      <div class="small" style="margin:12px 0 4px"><b>Or draw on the map:</b></div>
       <div class="tool-grid">
         <button class="btn btn-sm" id="toolTrace" title="Click along the railway — the route follows the actual track">🛤 Trace railway</button>
         <button class="btn btn-sm" id="toolLine" title="Click points to draw a line by hand">✏️ Draw line</button>
@@ -231,9 +240,9 @@
         <button class="btn btn-sm btn-danger" id="toolClear">Clear</button>
       </div>
       <div class="small" style="margin-top:8px">
-        <b>Trace railway</b> is the quick way: it uses the official Network Rail track layout and
-        snaps your clicks along it, so you get the exact railway alignment. Zoom in, click where the
-        section starts, then click along to where it ends — it loads more track as you pan.
+        Pick a station/junction in each box and the section is routed along the official Network Rail
+        track automatically. <b>Trace railway</b> does the same via map clicks — each click snaps to
+        the track and follows it (then extend/trim with more clicks or Undo).
       </div>
 
       <div class="btn-row">
@@ -260,10 +269,10 @@
       });
     };
     bind("#fName", "name");
-    bind("#fCode", "code");
-    bind("#fSort", "sort_order");
     bind("#fColor", "color");
     bind("#fDesc", "description");
+
+    setupLocationRouting();
 
     bodyEl.querySelector("#toolTrace").addEventListener("click", () => startDraw("trace"));
     bodyEl.querySelector("#toolLine").addEventListener("click", () => startDraw("line"));
@@ -287,15 +296,23 @@
     );
   }
 
+  function generateCode(name) {
+    const base = name.toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 24) || "SECTION";
+    const taken = new Set(CMap.state.sections.filter((x) => x.id !== A.editing.id).map((x) => x.code));
+    let code = base, n = 2;
+    while (taken.has(code)) code = base + "_" + n++;
+    return code;
+  }
+
   async function saveSection() {
     const s = A.editing;
-    if (!s.name.trim() || !s.code.trim()) {
-      return CMap.toast("A section needs at least a name and a unique code.", "err");
+    if (!s.name.trim()) {
+      return CMap.toast("Give the section a name first.", "err");
     }
     try {
       const saved = await CMap.saveSection({
         id: s.id,
-        code: s.code,
+        code: (s.code || "").trim() || generateCode(s.name),
         name: s.name,
         description: s.description || "",
         color: s.color,
@@ -407,6 +424,9 @@
     map.doubleClickZoom.disable();
     map.on("click", onDrawClick);
 
+    // On phones the panel covers the whole screen — get it out of the way while drawing
+    if (window.matchMedia("(max-width: 760px)").matches) panel.classList.remove("open");
+
     if (mode === "trace") {
       setDrawBar("Trace: click on the railway where the section starts, then click along it. Each click follows the track.");
       showGuideLayer();
@@ -433,6 +453,7 @@
     if (draw.previewLayer) { map.removeLayer(draw.previewLayer); draw.previewLayer = null; }
     hideGuideLayer();
     draw.mode = null;
+    if (A.active) panel.classList.add("open"); // bring the admin panel back (mobile)
   }
 
   function cancelDraw() {
@@ -579,6 +600,28 @@
     rail.ways.push(latlngs);
   }
 
+  async function loadTilesByKeys(keys) {
+    const need = keys.filter((k) => !rail.loadedTiles.has(k));
+    if (!need.length) return { newSegs: 0, failed: 0 };
+
+    let newSegs = 0, failed = 0;
+    await Promise.all(need.map(async (k) => {
+      try {
+        const res = await fetch(`./assets/data/cl/${k}.json`, { cache: "force-cache" });
+        if (res.status === 404) { rail.loadedTiles.add(k); return; } // sea / no rail here
+        if (!res.ok) throw new Error("tile " + k + " -> " + res.status);
+        const data = await res.json();
+        (data.segs || []).forEach((seg) => { integrateSegment(seg); newSegs++; });
+        rail.loadedTiles.add(k);
+      } catch (err) { failed++; }
+    }));
+    return { newSegs, failed };
+  }
+
+  function tileKey(lng, lat) {
+    return Math.floor(lng / TILE_SIZE) + "_" + Math.floor(lat / TILE_SIZE);
+  }
+
   async function loadRailsInView(quiet) {
     if (rail.loading) return;
     if (map.getZoom() < 10) {
@@ -590,27 +633,13 @@
     const keys = [];
     for (let tx = Math.floor(b.getWest() / TILE_SIZE); tx <= Math.floor(b.getEast() / TILE_SIZE); tx++) {
       for (let ty = Math.floor(b.getSouth() / TILE_SIZE); ty <= Math.floor(b.getNorth() / TILE_SIZE); ty++) {
-        const k = tx + "_" + ty;
-        if (!rail.loadedTiles.has(k)) keys.push(k);
+        keys.push(tx + "_" + ty);
       }
     }
-    if (!keys.length) return;
 
     rail.loading = true;
     if (!quiet && draw.mode === "trace") setDrawBar("Loading Network Rail track layout…");
-
-    let newSegs = 0, failed = 0;
-    await Promise.all(keys.map(async (k) => {
-      try {
-        const res = await fetch(`./assets/data/cl/${k}.json`, { cache: "force-cache" });
-        if (res.status === 404) { rail.loadedTiles.add(k); return; } // sea / no rail here
-        if (!res.ok) throw new Error("tile " + k + " -> " + res.status);
-        const data = await res.json();
-        (data.segs || []).forEach((seg) => { integrateSegment(seg); newSegs++; });
-        rail.loadedTiles.add(k);
-      } catch (err) { failed++; }
-    }));
-
+    const { newSegs, failed } = await loadTilesByKeys(keys);
     rail.loading = false;
     refreshGuideLayer();
 
@@ -719,6 +748,134 @@
     };
   }
 
+  // ----- Route between two named locations (stations/junctions) -----
+
+  function setupLocationRouting() {
+    const sel = { A: null, B: null };
+    const btn = bodyEl.querySelector("#autoRouteBtn");
+    if (!btn) return;
+
+    // warm the dataset so the first keystroke already filters
+    CMap.loadLocations().catch(() => {});
+
+    [["A", "#locA", "#locAres"], ["B", "#locB", "#locBres"]].forEach(([key, inputSel, resSel]) => {
+      const input = bodyEl.querySelector(inputSel);
+      const results = bodyEl.querySelector(resSel);
+      let t = null;
+      let current = []; // matches shown right now
+
+      function choose(l) {
+        sel[key] = l;
+        input.value = l.name;
+        input.classList.remove("loc-invalid");
+        results.classList.add("hidden");
+        btn.disabled = !(sel.A && sel.B);
+      }
+
+      async function refresh() {
+        const q = input.value.trim().toLowerCase();
+        if (!q) { results.classList.add("hidden"); input.classList.remove("loc-invalid"); return; }
+        let locs;
+        try { locs = await CMap.loadLocations(); }
+        catch (err) { return CMap.toast("Locations data could not be loaded: " + err.message, "err"); }
+
+        current = locs
+          .filter((l) => l.name.toLowerCase().includes(q) || (l.crs && l.crs.toLowerCase() === q))
+          .sort((a, b) => {
+            const ax = a.crs && a.crs.toLowerCase() === q ? 0 : a.name.toLowerCase().startsWith(q) ? 1 : 2;
+            const bx = b.crs && b.crs.toLowerCase() === q ? 0 : b.name.toLowerCase().startsWith(q) ? 1 : 2;
+            return ax - bx || (a.name < b.name ? -1 : 1);
+          })
+          .slice(0, 8);
+
+        input.classList.toggle("loc-invalid", !current.length);
+        results.innerHTML = current.length
+          ? current.map((l, i) => `
+              <button type="button" data-i="${i}">${esc(l.name)}
+                <span class="small">${esc(l.elr || "")}${l.elr ? " · " : ""}${l.kind === "j" ? "junction" : "station"}${l.crs ? " · " + esc(l.crs) : ""}</span>
+              </button>`).join("")
+          : `<div class="small" style="padding:8px 11px">No matching station or junction</div>`;
+        results.classList.remove("hidden");
+        results.querySelectorAll("button").forEach((b) => {
+          // mousedown, not click: it fires before the input's blur hides the list
+          b.addEventListener("mousedown", (e) => { e.preventDefault(); choose(current[Number(b.dataset.i)]); });
+        });
+      }
+
+      input.addEventListener("input", () => {
+        sel[key] = null;
+        btn.disabled = true;
+        clearTimeout(t);
+        t = setTimeout(refresh, 80);
+      });
+      input.addEventListener("focus", refresh);
+      input.addEventListener("blur", () => setTimeout(() => results.classList.add("hidden"), 150));
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !sel[key] && current.length) { e.preventDefault(); choose(current[0]); }
+        if (e.key === "Escape") results.classList.add("hidden");
+      });
+    });
+
+    btn.addEventListener("click", () => autoRouteBetween(sel.A, sel.B, btn));
+  }
+
+  async function autoRouteBetween(a, b, btn) {
+    if (!a || !b) return;
+    const s = A.editing;
+    btn.disabled = true;
+    btn.textContent = "Routing along the railway…";
+
+    try {
+      // load track tiles along the straight-line corridor (plus neighbours)
+      const keys = new Set();
+      const steps = Math.max(2, Math.ceil(Math.max(Math.abs(a.lat - b.lat), Math.abs(a.lng - b.lng)) / 0.15));
+      for (let i = 0; i <= steps; i++) {
+        const lat = a.lat + (b.lat - a.lat) * i / steps;
+        const lng = a.lng + (b.lng - a.lng) * i / steps;
+        const tx = Math.floor(lng / TILE_SIZE), ty = Math.floor(lat / TILE_SIZE);
+        for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) keys.add((tx + dx) + "_" + (ty + dy));
+      }
+      await loadTilesByKeys([...keys]);
+
+      let na = nearestNodeToLatLng([a.lat, a.lng], 2500);
+      let nb = nearestNodeToLatLng([b.lat, b.lng], 2500);
+      let path = na != null && nb != null ? shortestPath(na, nb) : null;
+
+      if (!path) {
+        // the railway may swing wide of the straight line — widen to the padded bounding box
+        const wide = [];
+        const x0 = Math.floor((Math.min(a.lng, b.lng) - 0.5) / TILE_SIZE), x1 = Math.floor((Math.max(a.lng, b.lng) + 0.5) / TILE_SIZE);
+        const y0 = Math.floor((Math.min(a.lat, b.lat) - 0.5) / TILE_SIZE), y1 = Math.floor((Math.max(a.lat, b.lat) + 0.5) / TILE_SIZE);
+        for (let tx = x0; tx <= x1; tx++) for (let ty = y0; ty <= y1; ty++) wide.push(tx + "_" + ty);
+        if (wide.length <= 90) {
+          await loadTilesByKeys(wide);
+          na = nearestNodeToLatLng([a.lat, a.lng], 2500);
+          nb = nearestNodeToLatLng([b.lat, b.lng], 2500);
+          path = na != null && nb != null ? shortestPath(na, nb) : null;
+        }
+      }
+
+      if (!path || path.length < 2) {
+        CMap.toast("Couldn't find a rail route between those locations — they may be on disconnected lines. Try Trace railway instead.", "err");
+        return;
+      }
+
+      s.geometry = {
+        type: "LineString",
+        coordinates: path.map((k) => { const p = rail.nodes.get(k); return [p[1], p[0]]; }),
+      };
+      if (!s.name.trim()) s.name = `${a.name} – ${b.name}`;
+      renderSectionEditor();
+      showEditPreview();
+      zoomToGeometry(s.geometry);
+      CMap.toast(`Route created along the railway (${path.length} points). Press “Save section” to keep it.`, "ok");
+    } finally {
+      // if the editor re-rendered, this button is detached — resetting it is harmless
+      btn.textContent = "⚡ Create route between locations";
+      btn.disabled = false;
+    }
+  }
+
   // Guide layer: the loaded railway shown as snappable blue lines while tracing
   const guideRenderer = L.canvas({ padding: 0.3 });
 
@@ -749,7 +906,8 @@
   // View: plan editor
   // =====================================================================
 
-  const SEVERITIES = ["", "High", "Medium", "Low"];
+  const SCENARIO_GROUPS = ["Full block", "Partial block", "Degraded conditions"];
+  const ACTIONS = ["Suspend", "Alteration", "Normal working"];
 
   function openPlanEditor(planId) {
     cancelDraw();
@@ -759,12 +917,14 @@
     A.editingPlan = existing
       ? JSON.parse(JSON.stringify(existing))
       : {
-          id: null, section_id: section.id, plan_code: "", title: "", severity: "",
-          scenario_group: "", scenario_label: "", owner_team: "", summary: "",
-          assumptions: "", constraints: "", steps: [], docs: [], sort_order: 100,
+          id: null, section_id: section.id, plan_code: "", title: "",
+          scenario_group: "", summary: "", assumptions: "", constraints: "",
+          steps: [], docs: [],
         };
     if (!Array.isArray(A.editingPlan.steps)) A.editingPlan.steps = [];
     if (!Array.isArray(A.editingPlan.docs)) A.editingPlan.docs = [];
+    // legacy step-format rows can't be edited in the table editor — start the table fresh
+    if (A.editingPlan.steps.length && A.editingPlan.steps[0].title !== undefined) A.editingPlan.steps = [];
 
     renderPlanEditor();
   }
@@ -773,51 +933,39 @@
     const p = A.editingPlan;
     const section = A.editing;
     titleEl.textContent = p.id ? "Edit plan" : "New plan";
-    metaEl.textContent = `${section.name} (${section.code})`;
-
-    const groups = [...new Set((section.plans || []).map((x) => x.scenario_group).filter(Boolean))];
+    metaEl.textContent = section.name;
 
     bodyEl.innerHTML = `
       <button class="back-link" id="backToSection">← ${esc(section.name)}</button>
 
       <div class="field-row">
-        <div class="field"><label>Plan code</label>
+        <div class="field" style="flex:0 0 130px"><label>Plan code</label>
           <input type="text" id="pCode" value="${esc(p.plan_code)}" placeholder="e.g. MML-6" /></div>
-        <div class="field" style="flex:0 0 130px"><label>Severity</label>
-          <select id="pSev">${SEVERITIES.map((s) =>
-            `<option value="${s}" ${p.severity === s ? "selected" : ""}>${s || "—"}</option>`).join("")}
+        <div class="field"><label>Scenario</label>
+          <select id="pGroup">
+            <option value="" ${!p.scenario_group ? "selected" : ""}>—</option>
+            ${SCENARIO_GROUPS.map((g) =>
+              `<option value="${g}" ${p.scenario_group === g ? "selected" : ""}>${g}</option>`).join("")}
           </select></div>
       </div>
       <div class="field"><label>Title</label>
-        <input type="text" id="pTitle" value="${esc(p.title)}" placeholder="e.g. MML-6 – St Albans to Radlett (Full Block)" /></div>
-
-      <div class="field"><label>Scenario group <span style="text-transform:none; font-weight:500">(how choices are grouped when this section has several plans)</span></label>
-        <input type="text" id="pGroup" value="${esc(p.scenario_group)}" list="groupList" placeholder="e.g. Full block / Reduced capacity" />
-        <datalist id="groupList">${groups.map((g) => `<option value="${esc(g)}">`).join("")}</datalist></div>
-      <div class="field"><label>Scenario label <span style="text-transform:none; font-weight:500">(the button text users pick)</span></label>
-        <input type="text" id="pLabel" value="${esc(p.scenario_label)}" placeholder="e.g. St Albans → Radlett" /></div>
-
-      <div class="field-row">
-        <div class="field"><label>Owner team</label>
-          <input type="text" id="pOwner" value="${esc(p.owner_team)}" placeholder="e.g. TRC WH / GTR Control" /></div>
-        <div class="field" style="flex:0 0 110px"><label>Sort</label>
-          <input type="number" id="pSort" value="${esc(p.sort_order)}" /></div>
-      </div>
+        <input type="text" id="pTitle" value="${esc(p.title)}" placeholder="e.g. St Albans to Radlett full block" /></div>
 
       <div class="field"><label>Summary</label><textarea id="pSummary">${esc(p.summary)}</textarea></div>
       <div class="field"><label>Assumptions</label><textarea id="pAssump">${esc(p.assumptions)}</textarea></div>
       <div class="field"><label>Constraints</label><textarea id="pConstr">${esc(p.constraints)}</textarea></div>
 
+      <div class="section-divider">Service groups (${p.steps.length})</div>
+      <div class="small" style="margin-bottom:8px">One row per service group: what happens to it under this plan.</div>
+      <div id="rowsWrap"></div>
+      <div class="btn-row" style="margin-top:6px">
+        <button class="btn btn-sm" id="addRowBtn">+ Add service group</button>
+        <button class="btn btn-sm" id="bulkRowsBtn" title="Paste many rows at once, one per line">📋 Bulk paste</button>
+      </div>
+
       <div class="section-divider">Documents / links</div>
       <div id="docsWrap"></div>
       <button class="btn btn-sm" id="addDocBtn">+ Add link</button>
-
-      <div class="section-divider">Steps (${p.steps.length})</div>
-      <div id="stepsWrap"></div>
-      <div class="btn-row" style="margin-top:6px">
-        <button class="btn btn-sm" id="addStepBtn">+ Add step</button>
-        <button class="btn btn-sm" id="bulkStepsBtn" title="Paste many steps at once, one per line">📋 Bulk paste steps</button>
-      </div>
 
       <div class="btn-row">
         <button class="btn btn-primary" id="savePlanBtn">Save plan</button>
@@ -827,36 +975,31 @@
 
     bodyEl.querySelector("#backToSection").addEventListener("click", () => renderSectionEditor());
 
-    const bind = (sel, key, isNum) => {
-      bodyEl.querySelector(sel).addEventListener("input", (e) => {
-        p[key] = isNum ? Number(e.target.value || 0) : e.target.value;
-      });
+    const bind = (sel, key) => {
+      bodyEl.querySelector(sel).addEventListener("input", (e) => { p[key] = e.target.value; });
     };
     bind("#pCode", "plan_code");
-    bind("#pSev", "severity");
-    bind("#pTitle", "title");
     bind("#pGroup", "scenario_group");
-    bind("#pLabel", "scenario_label");
-    bind("#pOwner", "owner_team");
-    bind("#pSort", "sort_order", true);
+    bind("#pTitle", "title");
     bind("#pSummary", "summary");
     bind("#pAssump", "assumptions");
     bind("#pConstr", "constraints");
 
     renderDocsEditor();
-    renderStepsEditor();
+    renderRowsEditor();
 
     bodyEl.querySelector("#addDocBtn").addEventListener("click", () => {
       p.docs.push({ label: "", url: "" });
       renderDocsEditor();
     });
-    bodyEl.querySelector("#addStepBtn").addEventListener("click", () => {
-      p.steps.push({ step_type: "Action", title: "", detail: "", owner_role: "" });
-      renderStepsEditor();
-      const wrap = bodyEl.querySelector("#stepsWrap");
+    bodyEl.querySelector("#addRowBtn").addEventListener("click", () => {
+      p.steps.push({ group: "", od: "", action: "Normal working", plan: "" });
+      renderRowsEditor();
+      const wrap = bodyEl.querySelector("#rowsWrap");
       wrap.lastElementChild?.scrollIntoView({ block: "nearest" });
+      wrap.lastElementChild?.querySelector("input")?.focus();
     });
-    bodyEl.querySelector("#bulkStepsBtn").addEventListener("click", bulkPasteSteps);
+    bodyEl.querySelector("#bulkRowsBtn").addEventListener("click", bulkPasteRows);
 
     bodyEl.querySelector("#savePlanBtn").addEventListener("click", savePlan);
     const del = bodyEl.querySelector("#deletePlanBtn");
@@ -889,13 +1032,13 @@
     });
   }
 
-  function renderStepsEditor() {
+  function renderRowsEditor() {
     const p = A.editingPlan;
-    const wrap = bodyEl.querySelector("#stepsWrap");
-    wrap.innerHTML = p.steps.map((s, i) => `
-      <div class="step-row" data-step="${i}">
+    const wrap = bodyEl.querySelector("#rowsWrap");
+    wrap.innerHTML = p.steps.map((r, i) => `
+      <div class="step-row" data-row="${i}">
         <div class="step-row-head">
-          <span>STEP ${i + 1}</span>
+          <span>${esc(r.group || "SERVICE GROUP " + (i + 1))}</span>
           <span class="btns">
             <button class="btn btn-sm" data-move="up" ${i === 0 ? "disabled" : ""}>↑</button>
             <button class="btn btn-sm" data-move="down" ${i === p.steps.length - 1 ? "disabled" : ""}>↓</button>
@@ -903,73 +1046,79 @@
           </span>
         </div>
         <div class="field-row">
-          <div class="field" style="flex:0 0 120px"><label>Type</label>
-            <input type="text" data-k="step_type" value="${esc(s.step_type)}" placeholder="Action" /></div>
-          <div class="field"><label>Title</label>
-            <input type="text" data-k="title" value="${esc(s.title)}" /></div>
+          <div class="field" style="flex:0 0 110px"><label>Service group</label>
+            <input type="text" data-k="group" value="${esc(r.group)}" placeholder="e.g. 9K" /></div>
+          <div class="field"><label>Origin / Destination</label>
+            <input type="text" data-k="od" value="${esc(r.od)}" placeholder="e.g. Luton – Rainham" /></div>
         </div>
-        <div class="field"><label>Detail</label><textarea data-k="detail" style="min-height:48px">${esc(s.detail)}</textarea></div>
-        <div class="field"><label>Owner role (optional)</label>
-          <input type="text" data-k="owner_role" value="${esc(s.owner_role || "")}" /></div>
+        <div class="field"><label>Action</label>
+          <select data-k="action">${ACTIONS.map((a) =>
+            `<option value="${a}" ${r.action === a ? "selected" : ""}>${a}</option>`).join("")}
+          </select></div>
+        <div class="field"><label>Plan</label>
+          <textarea data-k="plan" style="min-height:48px" placeholder="What happens to this service group…">${esc(r.plan)}</textarea></div>
       </div>`).join("");
 
-    wrap.querySelectorAll("[data-step]").forEach((row) => {
-      const i = Number(row.dataset.step);
-      row.querySelectorAll("input,textarea").forEach((input) => {
+    wrap.querySelectorAll("[data-row]").forEach((row) => {
+      const i = Number(row.dataset.row);
+      row.querySelectorAll("input,textarea,select").forEach((input) => {
         input.addEventListener("input", (e) => { p.steps[i][e.target.dataset.k] = e.target.value; });
       });
       row.querySelector("[data-remove]").addEventListener("click", () => {
         p.steps.splice(i, 1);
-        renderStepsEditor();
+        renderRowsEditor();
       });
       row.querySelectorAll("[data-move]").forEach((btn) => {
         btn.addEventListener("click", () => {
           const j = btn.dataset.move === "up" ? i - 1 : i + 1;
           if (j < 0 || j >= p.steps.length) return;
           [p.steps[i], p.steps[j]] = [p.steps[j], p.steps[i]];
-          renderStepsEditor();
+          renderRowsEditor();
         });
       });
     });
 
     const divider = [...bodyEl.querySelectorAll(".section-divider")]
-      .find((el) => el.textContent.startsWith("Steps"));
-    if (divider) divider.textContent = `Steps (${p.steps.length})`;
+      .find((el) => el.textContent.startsWith("Service groups"));
+    if (divider) divider.textContent = `Service groups (${p.steps.length})`;
   }
 
-  function bulkPasteSteps() {
+  function normaliseAction(text) {
+    const t = String(text || "").trim().toLowerCase();
+    if (t.startsWith("s")) return "Suspend";
+    if (t.startsWith("a")) return "Alteration";
+    return "Normal working";
+  }
+
+  function bulkPasteRows() {
     const p = A.editingPlan;
     const body = document.createElement("div");
     body.innerHTML = `
       <div class="small" style="margin-bottom:8px">
-        One step per line. Optionally split fields with a pipe:<br />
-        <b>Type | Title | Detail | Owner</b> — e.g.<br />
-        <code>Trains | Cancel 9K group | Between St Albans and Radlett | GTR Control</code><br />
-        A line without pipes becomes an “Action” step title.
+        One service group per line, fields split with a pipe:<br />
+        <b>Service group | Origin / Destination | Action | Plan</b><br />
+        Action can be S, A or N (Suspend / Alteration / Normal working) — e.g.<br />
+        <code>9K | Luton – Rainham | S | Suspended throughout</code>
       </div>
-      <div class="field"><textarea id="bulkText" style="min-height:160px" placeholder="Paste steps here…"></textarea></div>
-      <div class="btn-row"><button class="btn btn-primary" id="bulkGo">Add steps</button></div>
+      <div class="field"><textarea id="bulkText" style="min-height:160px" placeholder="Paste rows here…"></textarea></div>
+      <div class="btn-row"><button class="btn btn-primary" id="bulkGo">Add rows</button></div>
     `;
-    const m = CMap.modal({ title: "Bulk paste steps", body });
+    const m = CMap.modal({ title: "Bulk paste service groups", body });
     body.querySelector("#bulkGo").addEventListener("click", () => {
       const lines = body.querySelector("#bulkText").value.split("\n")
         .map((l) => l.trim()).filter(Boolean);
       lines.forEach((line) => {
         const parts = line.split("|").map((x) => x.trim());
-        if (parts.length === 1) {
-          p.steps.push({ step_type: "Action", title: parts[0], detail: "", owner_role: "" });
-        } else {
-          p.steps.push({
-            step_type: parts[0] || "Action",
-            title: parts[1] || "",
-            detail: parts[2] || "",
-            owner_role: parts[3] || "",
-          });
-        }
+        p.steps.push({
+          group: parts[0] || "",
+          od: parts[1] || "",
+          action: normaliseAction(parts[2]),
+          plan: parts[3] || "",
+        });
       });
       m.close();
-      renderStepsEditor();
-      CMap.toast(`Added ${lines.length} step${lines.length === 1 ? "" : "s"}.`, "ok");
+      renderRowsEditor();
+      CMap.toast(`Added ${lines.length} row${lines.length === 1 ? "" : "s"}.`, "ok");
     });
   }
 

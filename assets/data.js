@@ -154,6 +154,21 @@ CMap.confirm = function (title, message, confirmLabel) {
   });
 };
 
+/* Stations & junctions on the NR network: rows [name, lat, lng, kind('s'|'j'), crs, elr].
+ * Loaded lazily; used by the search box and the section auto-router. */
+let locationsPromise = null;
+CMap.loadLocations = function () {
+  if (!locationsPromise) {
+    locationsPromise = fetch("./assets/data/locations.json", { cache: "force-cache" })
+      .then((res) => {
+        if (!res.ok) throw new Error("locations.json " + res.status);
+        return res.json();
+      })
+      .then((rows) => rows.map(([name, lat, lng, kind, crs, elr]) => ({ name, lat, lng, kind, crs, elr })));
+  }
+  return locationsPromise;
+};
+
 CMap.severityClass = function (sev) {
   const s = String(sev || "").toLowerCase();
   if (s.startsWith("high")) return "sev-high";

@@ -13,13 +13,16 @@ railway coverage grows.
 - The map fills the screen with the **official Network Rail track network** overlaid
   (from the NR Track Model open data pack — toggle with **NR network**). Detailed
   OpenRailwayMap tiles are available as a secondary **Rail tiles** toggle.
-- **Search** (top bar): type an ELR code (e.g. `MLN1`) to zoom to that route, or
-  `ELR mileage` (e.g. `MLN1 30`) to jump to that exact mileage — the position is
-  interpolated between the two nearest Network Rail waymarks (mileposts).
-- Click a highlighted section to open its plans. If the section has more than one plan you
-  get a scenario chooser, grouped by scenario (e.g. *Full block* / *Reduced capacity*).
-- Each plan shows severity, owner team, summary, assumptions/constraints, linked documents
-  and numbered steps.
+- **Search** (top bar): station names or CRS codes (`SAC`), junction names, ELR codes
+  (`SPC1`), or `ELR mileage` (e.g. `SPC1 30`) to jump to an exact mileage — interpolated
+  between the two nearest Network Rail waymarks. Location results show their nearest ELR
+  so it's easy to pick the right one.
+- Click (or tap) a highlighted section to open its plans. If the section has more than one
+  plan you get a scenario chooser grouped by *Full block* / *Partial block* / *Degraded
+  conditions*, with plan codes as the options.
+- Each plan shows its summary, assumptions/constraints, linked documents and a
+  **service-group table**: one row per service group with origin/destination, the action
+  (Suspend / Alteration / Normal working) and the plan for that group.
 
 ## Admin
 
@@ -40,13 +43,13 @@ Click **Admin** (top right) and enter the admin passcode. From the admin panel y
   **Save section**.
 
 ### Plans
-- Add any number of plans to a section. Each has: plan code, title, severity, owner team,
-  summary, assumptions, constraints, document links and ordered steps.
-- **Scenario group + scenario label** control the chooser when a section has multiple
-  plans (e.g. group `Full block`, label `St Albans → Radlett`). This replaces what used to
-  be hardcoded decision logic — it's all data now.
-- **📋 Bulk paste steps** — paste a whole plan at once, one step per line, optionally
-  `Type | Title | Detail | Owner`.
+- Add any number of plans to a section. Each has: plan code, scenario (Full block /
+  Partial block / Degraded conditions), title, summary, assumptions, constraints,
+  document links and the **service-group table**.
+- The service-group table is built row by row: service group, origin/destination, an
+  action dropdown (Suspend / Alteration / Normal working) and the plan for that group.
+- **📋 Bulk paste** — paste many rows at once, one per line:
+  `Service group | Origin/Destination | S/A/N | Plan`.
 
 ### Passcode
 - Change it any time from Admin → **Change passcode**. It is stored server-side and never

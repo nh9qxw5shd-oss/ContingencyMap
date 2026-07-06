@@ -50,6 +50,7 @@
       <button class="search-item${i === 0 ? " active" : ""}" data-i="${i}">
         <b>${esc(it.code)}</b>
         <span>${esc(it.sub)}</span>
+        ${it.kind ? `<span class="search-kind">${esc(it.kind)}</span>` : ""}
       </button>`).join("");
     resultsEl.classList.remove("hidden");
     resultsEl.querySelectorAll(".search-item").forEach((el) => {
@@ -64,7 +65,7 @@
     resultsEl.classList.add("hidden");
   }
 
-  function buildItems(parsed) {
+  function elrItems(parsed) {
     const items = [];
     if (!parsed) return items;
     const { code, mileage } = parsed;
@@ -73,26 +74,62 @@
     const codes = [...CMap.nr.byCode.keys()]
       .filter((c) => c.startsWith(code))
       .sort((a, b) => (a === code ? -1 : b === code ? 1 : a < b ? -1 : 1))
-      .slice(0, 10);
+      .slice(0, mileage != null ? 6 : 4);
 
     codes.forEach((c) => {
       const f = CMap.nr.byCode.get(c);
       const { start, end } = f.properties;
       if (mileage != null) {
         items.push({
-          code: c,
+          code: c, kind: "ELR",
           sub: `go to ${mileage} (route runs ${start.toFixed(1)}–${end.toFixed(1)})`,
           go: () => jumpToMileage(c, mileage),
         });
       } else {
         items.push({
-          code: c,
+          code: c, kind: "ELR",
           sub: `route line · ${start.toFixed(1)}–${end.toFixed(1)}`,
           go: () => zoomToElr(c),
         });
       }
     });
     return items;
+  }
+
+  function goToLocation(l) {
+    CMap.map.flyTo([l.lat, l.lng], Math.max(CMap.map.getZoom(), 14), { duration: 0.8 });
+    setMarker([l.lat, l.lng], `<b>${esc(l.name)}</b>${l.crs ? " · " + esc(l.crs) : ""}`);
+    highlight(null);
+    input.value = l.name;
+  }
+
+  function locationItems(q, locs) {
+    const ql = q.trim().toLowerCase();
+    if (ql.length < 2) return [];
+    return locs
+      .filter((l) => l.name.toLowerCase().includes(ql) || (l.crs && l.crs.toLowerCase() === ql))
+      .sort((a, b) => {
+        const ax = a.crs && a.crs.toLowerCase() === ql ? 0 : a.name.toLowerCase().startsWith(ql) ? 1 : 2;
+        const bx = b.crs && b.crs.toLowerCase() === ql ? 0 : b.name.toLowerCase().startsWith(ql) ? 1 : 2;
+        return ax - bx || (a.name < b.name ? -1 : 1);
+      })
+      .slice(0, 8)
+      .map((l) => ({
+        code: l.name,
+        kind: l.kind === "j" ? "junction" : "station",
+        sub: [l.elr, l.crs].filter(Boolean).join(" · "),
+        go: () => goToLocation(l),
+      }));
+  }
+
+  async function buildItems(q) {
+    const locs = await CMap.loadLocations().catch(() => []);
+    const locItems = locationItems(q, locs);
+    const elrs = elrItems(parseQuery(q));
+    // an exact CRS hit (e.g. "SAC") is almost always what was meant — put it first
+    const exactCrs = locItems.length && locItems[0].sub &&
+      locItems[0].sub.toLowerCase() === q.trim().toLowerCase();
+    return exactCrs ? [...locItems, ...elrs] : [...elrs, ...locItems];
   }
 
   function zoomToElr(code) {
@@ -171,7 +208,7 @@
       await CMap.nr.ready;
       const q = input.value;
       if (!q.trim()) { hideResults(); setMarker(null); highlight(null); return; }
-      showResults(buildItems(parseQuery(q)));
+      showResults(await buildItems(q));
     }, 120);
   });
 
