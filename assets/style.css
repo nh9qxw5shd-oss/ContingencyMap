@@ -175,7 +175,13 @@ html,body{
   box-shadow:var(--shadow);
   transition:transform .25s ease;
 }
-.panel-right{ right:0; transform:translateX(105%); border-left:1px solid var(--stroke); }
+.panel-right{
+  right:0;
+  transform:translateX(105%);
+  border-left:1px solid var(--stroke);
+  /* wide enough that the plan table never scrolls sideways */
+  width:min(700px, 100vw);
+}
 .panel-left{ left:0; transform:translateX(-105%); border-right:1px solid var(--stroke); }
 .panel.open{ transform:translateX(0); }
 
@@ -301,8 +307,9 @@ html,body{
 .step-owner{ font-size:11px; color:var(--muted); margin-top:2px; }
 
 /* service-group table in the plan viewer */
-.table-wrap{ overflow-x:auto; border:1px solid var(--stroke); border-radius:12px; background:#fff; }
-.svc-table{ border-collapse:collapse; width:100%; font-size:12.5px; min-width:400px; }
+.table-wrap{ border:1px solid var(--stroke); border-radius:12px; background:#fff; overflow-x:auto; }
+.svc-table{ border-collapse:collapse; width:100%; font-size:12.5px; table-layout:auto; }
+.svc-table td{ overflow-wrap:anywhere; }
 .svc-table th{
   text-align:left;
   font-size:10.5px;
@@ -312,7 +319,6 @@ html,body{
   padding:8px 10px;
   border-bottom:1px solid var(--stroke);
   background:#f8fafc;
-  white-space:nowrap;
 }
 .svc-table td{ padding:8px 10px; border-bottom:1px solid var(--stroke); vertical-align:top; }
 .svc-table tr:last-child td{ border-bottom:0; }
@@ -324,7 +330,7 @@ html,body{
   border-radius:999px;
   border:1px solid var(--stroke);
   color:var(--muted);
-  white-space:nowrap;
+  text-align:center;
 }
 .act-suspend{ background:#fef2f2; border-color:#fecaca; color:#b91c1c; }
 .act-alter{ background:#fffbeb; border-color:#fde68a; color:#b45309; }
@@ -360,6 +366,15 @@ html,body{
   cursor:pointer;
   padding:0 0 10px;
 }
+
+.detail-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:8px;
+  margin-bottom:10px;
+}
+.detail-toolbar .back-link{ padding-bottom:0; }
 .back-link:hover{ text-decoration:underline; }
 
 /* ===== Forms (admin) ===== */
