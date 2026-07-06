@@ -309,6 +309,9 @@
     if (!s.name.trim()) {
       return CMap.toast("Give the section a name first.", "err");
     }
+    // double-taps on a slow connection must not create duplicate sections
+    const btn = bodyEl.querySelector("#saveSectionBtn");
+    if (btn) { if (btn.disabled) return; btn.disabled = true; btn.textContent = "Saving…"; }
     try {
       const saved = await CMap.saveSection({
         id: s.id,
@@ -323,6 +326,7 @@
       CMap.toast("Section saved.", "ok");
       openSectionEditor(saved.id);
     } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = "Save section"; }
       CMap.toast(err.message, "err");
     }
   }
@@ -335,12 +339,28 @@
       "Delete section"
     );
     if (!ok) return;
+
+    const btn = bodyEl.querySelector("#deleteSectionBtn");
+    if (btn) { btn.disabled = true; btn.textContent = "Deleting…"; }
+
     try {
-      await CMap.deleteSection(s.id);
-      await refreshData();
+      const deleted = await CMap.deleteSection(s.id);
+      if (deleted === false) {
+        throw new Error("The server couldn't find that section — reload the page and try again.");
+      }
+
+      // Scrub every trace locally straight away, even if the reload below fails:
+      // map line, open viewer panel, edit preview.
+      CMap.state.sections = CMap.state.sections.filter((x) => x.id !== s.id);
+      CMap.renderSections();
+      if (CMap.closeViewerFor) CMap.closeViewerFor(s.id);
+      clearEditPreview();
+      try { await refreshData(); } catch { /* local state is already correct */ }
+
       CMap.toast("Section deleted.", "ok");
       showSectionList();
     } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = "Delete"; }
       CMap.toast(err.message, "err");
     }
   }
@@ -1125,6 +1145,8 @@
   async function savePlan() {
     const p = A.editingPlan;
     if (!p.title.trim()) return CMap.toast("The plan needs a title.", "err");
+    const btn = bodyEl.querySelector("#savePlanBtn");
+    if (btn) { if (btn.disabled) return; btn.disabled = true; btn.textContent = "Saving…"; }
     try {
       await CMap.savePlan(p);
       await refreshData();
@@ -1135,6 +1157,7 @@
       renderSectionEditor();
       showEditPreview();
     } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = "Save plan"; }
       CMap.toast(err.message, "err");
     }
   }
@@ -1166,6 +1189,7 @@
       renderSectionEditor();
       showEditPreview();
     } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = "Delete plan"; }
       CMap.toast(err.message, "err");
     }
   }
