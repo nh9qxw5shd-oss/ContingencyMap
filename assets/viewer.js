@@ -229,40 +229,44 @@
   }
 
   /* Plain-text version of a plan, formatted for pasting into CCIL logs or
-   * WhatsApp (*heading* renders bold in WhatsApp). */
+   * WhatsApp. Section titles are wrapped in *asterisks* — that is WhatsApp's
+   * bold syntax — with a blank line between every section, and service
+   * groups as spaced bullet points. */
   function planToText(section, plan) {
     const rows = Array.isArray(plan.steps) ? plan.steps : [];
     const docs = Array.isArray(plan.docs) ? plan.docs : [];
     const isTable = rows.length && rows[0].title === undefined;
 
-    const lines = [];
     const heading = [plan.plan_code, plan.title].filter(Boolean).join(" — ") || "Contingency plan";
-    lines.push(`*${heading}*`);
-    lines.push(`Section: ${section.name}`);
-    if (plan.scenario_group) lines.push(`Scenario: ${plan.scenario_group}`);
-    if (plan.summary) lines.push("", `Summary: ${plan.summary}`);
-    if (plan.assumptions) lines.push(`Assumptions: ${plan.assumptions}`);
-    if (plan.constraints) lines.push(`Constraints: ${plan.constraints}`);
+    const blocks = [];
+
+    const header = [`*${heading}*`, `Section: ${section.name}`];
+    if (plan.scenario_group) header.push(`Scenario: ${plan.scenario_group}`);
+    blocks.push(header.join("\n"));
+
+    if (plan.summary) blocks.push(`*Summary*\n${plan.summary}`);
+    if (plan.assumptions) blocks.push(`*Assumptions*\n${plan.assumptions}`);
+    if (plan.constraints) blocks.push(`*Constraints*\n${plan.constraints}`);
 
     if (isTable) {
-      lines.push("", "SERVICE GROUPS");
-      rows.forEach((r) => {
-        lines.push([r.group, r.od, (r.action || "").toUpperCase()].filter(Boolean).join(" | "));
-        if (r.plan) lines.push(`   ${r.plan}`);
+      const groups = rows.map((r) => {
+        const head = "- " + [r.group, r.od, (r.action || "").toUpperCase()].filter(Boolean).join(" | ");
+        return r.plan ? `${head}\n  ${r.plan}` : head;
       });
+      blocks.push(`*Service groups*\n\n${groups.join("\n\n")}`);
     } else if (rows.length) {
-      lines.push("", "STEPS");
-      rows.forEach((s, i) => {
-        lines.push(`${i + 1}. ${[s.step_type, s.title].filter(Boolean).join(": ")}`);
-        if (s.detail) lines.push(`   ${s.detail}`);
+      const steps = rows.map((s, i) => {
+        const head = `${i + 1}. ${[s.step_type, s.title].filter(Boolean).join(": ")}`;
+        return s.detail ? `${head}\n  ${s.detail}` : head;
       });
+      blocks.push(`*Steps*\n\n${steps.join("\n\n")}`);
     }
 
     if (docs.length) {
-      lines.push("");
-      docs.forEach((d) => lines.push(`Doc: ${d.label ? d.label + " — " : ""}${d.url}`));
+      blocks.push(`*Documents*\n${docs.map((d) => `- ${d.label ? d.label + " — " : ""}${d.url}`).join("\n")}`);
     }
-    return lines.join("\n");
+
+    return blocks.join("\n\n");
   }
 
   async function copyPlan(section, plan) {
