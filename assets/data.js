@@ -148,8 +148,11 @@ CMap.confirm = function (title, message, confirmLabel) {
     body.appendChild(p);
     body.appendChild(row);
 
-    const m = CMap.modal({ title, body, onClose: () => resolve(false) });
-    yes.addEventListener("click", () => { m.close(); resolve(true); });
+    // resolve once: m.close() fires onClose, which must not override a "yes"
+    let done = false;
+    const finish = (val) => { if (!done) { done = true; resolve(val); } };
+    const m = CMap.modal({ title, body, onClose: () => finish(false) });
+    yes.addEventListener("click", () => { finish(true); m.close(); });
     no.addEventListener("click", () => m.close());
   });
 };

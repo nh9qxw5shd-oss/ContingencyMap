@@ -144,15 +144,24 @@
 
   document.getElementById("viewerCloseBtn").addEventListener("click", closeViewer);
 
+  let viewerSectionId = null;
+
   function closeViewer() {
+    viewerSectionId = null;
     panel.classList.remove("open");
     panel.setAttribute("aria-hidden", "true");
   }
+
+  // Close the viewer if it is showing the given section (e.g. it was just deleted)
+  CMap.closeViewerFor = function (sectionId) {
+    if (viewerSectionId === sectionId) closeViewer();
+  };
 
   function openViewer(sectionId) {
     const section = CMap.state.sections.find((s) => s.id === sectionId);
     if (!section) return;
 
+    viewerSectionId = sectionId;
     panel.classList.add("open");
     panel.setAttribute("aria-hidden", "false");
     titleEl.textContent = section.name;
