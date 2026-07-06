@@ -219,6 +219,62 @@
     return "";
   }
 
+  /* Plain-text version of a plan, formatted for pasting into CCIL logs or
+   * WhatsApp (*heading* renders bold in WhatsApp). */
+  function planToText(section, plan) {
+    const rows = Array.isArray(plan.steps) ? plan.steps : [];
+    const docs = Array.isArray(plan.docs) ? plan.docs : [];
+    const isTable = rows.length && rows[0].title === undefined;
+
+    const lines = [];
+    const heading = [plan.plan_code, plan.title].filter(Boolean).join(" — ") || "Contingency plan";
+    lines.push(`*${heading}*`);
+    lines.push(`Section: ${section.name}`);
+    if (plan.scenario_group) lines.push(`Scenario: ${plan.scenario_group}`);
+    if (plan.summary) lines.push("", `Summary: ${plan.summary}`);
+    if (plan.assumptions) lines.push(`Assumptions: ${plan.assumptions}`);
+    if (plan.constraints) lines.push(`Constraints: ${plan.constraints}`);
+
+    if (isTable) {
+      lines.push("", "SERVICE GROUPS");
+      rows.forEach((r) => {
+        lines.push([r.group, r.od, (r.action || "").toUpperCase()].filter(Boolean).join(" | "));
+        if (r.plan) lines.push(`   ${r.plan}`);
+      });
+    } else if (rows.length) {
+      lines.push("", "STEPS");
+      rows.forEach((s, i) => {
+        lines.push(`${i + 1}. ${[s.step_type, s.title].filter(Boolean).join(": ")}`);
+        if (s.detail) lines.push(`   ${s.detail}`);
+      });
+    }
+
+    if (docs.length) {
+      lines.push("");
+      docs.forEach((d) => lines.push(`Doc: ${d.label ? d.label + " — " : ""}${d.url}`));
+    }
+    return lines.join("\n");
+  }
+
+  async function copyPlan(section, plan) {
+    const text = planToText(section, plan);
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { ok = document.execCommand("copy"); } catch { /* stay false */ }
+      ta.remove();
+    }
+    if (ok) CMap.toast("Plan copied — ready to paste into a CCIL log or WhatsApp.", "ok");
+    else CMap.toast("Couldn't copy automatically — long-press/select the text instead.", "err");
+  }
+
   function renderPlanDetail(section, plan, withBack) {
     const rows = Array.isArray(plan.steps) ? plan.steps : [];
     const docs = Array.isArray(plan.docs) ? plan.docs : [];
@@ -250,7 +306,10 @@
       <div class="small">📄 <a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label || d.url)}</a></div>`).join("");
 
     bodyEl.innerHTML = `
-      ${withBack ? `<button class="back-link" id="viewerBackBtn">← All scenarios for this section</button>` : ""}
+      <div class="detail-toolbar">
+        ${withBack ? `<button class="back-link" id="viewerBackBtn">← All scenarios for this section</button>` : "<span></span>"}
+        <button class="btn btn-sm" id="copyPlanBtn" title="Copy this plan as text for CCIL logs or WhatsApp">📋 Copy plan</button>
+      </div>
       <div class="card">
         <h3>${esc(plan.plan_code || plan.title)}</h3>
         ${plan.plan_code && plan.title && plan.title !== plan.plan_code ? `<div class="small"><b>${esc(plan.title)}</b></div>` : ""}
@@ -266,6 +325,7 @@
 
     const back = document.getElementById("viewerBackBtn");
     if (back) back.addEventListener("click", () => renderChooser(section));
+    document.getElementById("copyPlanBtn").addEventListener("click", () => copyPlan(section, plan));
   }
 
   // ===== Boot =====
