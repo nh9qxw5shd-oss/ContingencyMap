@@ -968,6 +968,13 @@
               `<option value="${g}" ${p.scenario_group === g ? "selected" : ""}>${g}</option>`).join("")}
           </select></div>
       </div>
+      <div class="field"><label>Section</label>
+        <select id="pSection">
+          ${CMap.state.sections.map((sec) =>
+            `<option value="${esc(sec.id)}" ${sec.id === p.section_id ? "selected" : ""}>${esc(sec.name)}${sec.geometry ? "" : " (no geometry)"}</option>`).join("")}
+        </select>
+        <div class="small" style="margin-top:4px">Pick a different section and press “Save plan” to move this plan there — e.g. from the Plan Library onto a drawn section.</div>
+      </div>
       <div class="field"><label>Title</label>
         <input type="text" id="pTitle" value="${esc(p.title)}" placeholder="e.g. St Albans to Radlett full block" /></div>
 
@@ -999,6 +1006,7 @@
       bodyEl.querySelector(sel).addEventListener("input", (e) => { p[key] = e.target.value; });
     };
     bind("#pCode", "plan_code");
+    bind("#pSection", "section_id");
     bind("#pGroup", "scenario_group");
     bind("#pTitle", "title");
     bind("#pSummary", "summary");
@@ -1150,12 +1158,18 @@
     try {
       await CMap.savePlan(p);
       await refreshData();
-      // re-open the refreshed section so the plan list is current
-      const sectionId = A.editing.id;
-      A.editing = JSON.parse(JSON.stringify(CMap.state.sections.find((s) => s.id === sectionId)));
-      CMap.toast("Plan saved.", "ok");
+      // re-open the refreshed section so the plan list is current; if the plan
+      // was moved to another section, follow it there
+      const fromId = A.editing.id;
+      const targetId = p.section_id || fromId;
+      const target = CMap.state.sections.find((s) => s.id === targetId)
+        || CMap.state.sections.find((s) => s.id === fromId);
+      const moved = target.id !== fromId;
+      A.editing = JSON.parse(JSON.stringify(target));
+      CMap.toast(moved ? `Plan moved to “${target.name}”.` : "Plan saved.", "ok");
       renderSectionEditor();
       showEditPreview();
+      if (moved && target.geometry) zoomToGeometry(target.geometry);
     } catch (err) {
       if (btn) { btn.disabled = false; btn.textContent = "Save plan"; }
       CMap.toast(err.message, "err");

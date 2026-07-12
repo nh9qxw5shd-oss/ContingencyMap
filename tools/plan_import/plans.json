@@ -1,0 +1,3278 @@
+[
+ {
+  "plan_code": "MML-1",
+  "title": "Bedford",
+  "scenario_group": "Full block",
+  "summary": "Bedford Blocked",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run to West Hampstead"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "Luton to Brighton as 9T’s"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "North: 1 TPH Corby to Wellingborough\nSouth: 1 TPH St Pancras to Luton"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Nottingham to Kettering"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "1TPH Leicester to Sheffield"
+   }
+  ],
+  "docs": [],
+  "sort_order": 100
+ },
+ {
+  "plan_code": "MML-2",
+  "title": "South of Bedford to Luton",
+  "scenario_group": "Full block",
+  "summary": "All Lines Blocked Bedford South to Luton (Bedford station and Luton station available)",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run to West Hampstead"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "Luton to Brighton as 9T’s"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "North: 1 TPH Corby to Bedford (if platforms available at Bedford)\nSouth: 1 TPH St Pancras to Luton"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Nottingham to Bedford"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "1TPH Leicester to Sheffield"
+   }
+  ],
+  "docs": [],
+  "sort_order": 110
+ },
+ {
+  "plan_code": "MML-2a",
+  "title": "Bedford to Luton Reduced Capacity",
+  "scenario_group": "Partial block",
+  "summary": "Bedford to Luton reduced to a 2 or 3 track railway (fast or slow lines blocked). All services run as booked except where noted.",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "Not to Call: LEA, HLN, FLT (but not after 2000)"
+   },
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 120
+ },
+ {
+  "plan_code": "MML-3",
+  "title": "Luton Closed",
+  "scenario_group": "Full block",
+  "summary": "Luton Closed",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run to Kentish Town PM peak\nRun to West Hampstead AM peak"
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Rxx",
+    "od": "Brighton to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Run Rainham to Dartford only\nRun PM peak to Kentish Town"
+   },
+   {
+    "group": "9Txx",
+    "od": "Bedford to Brighton",
+    "action": "Alteration",
+    "plan": "South: 2TPH Brighton to West Hampstead 9T\nNorth: 1TPH Leagrave to Bedford 9G"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "1 TPH Bedford to Corby (shunt via Bedford South)"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Bedford to Notts"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Leicester to Sheffield"
+   }
+  ],
+  "docs": [],
+  "sort_order": 130
+ },
+ {
+  "plan_code": "MML-4",
+  "title": "Luton - St Albans Closed",
+  "scenario_group": "Full block",
+  "summary": "All Lines Blocked, Luton to St Albans (North)",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Alteration",
+    "plan": "Bedford to Luton Shuttle (2TPH)\nSuspended in the South"
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Suspend",
+    "plan": "**Evening Kentish Town terminators to run"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "North of Block – Suspended\nSOUTH OF BLOCK: Run as 9T Brighton to West Hampstead Platform 2"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Rainham - Dartford shuttle"
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "Run Luton to Corby only"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Alteration",
+    "plan": "Run Luton to Nottingham only"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "Run Leicester to Sheffield only (consider running to Bedford)"
+   }
+  ],
+  "docs": [],
+  "sort_order": 140
+ },
+ {
+  "plan_code": "MML-4a",
+  "title": "Luton to St Albans Reduced Capacity",
+  "scenario_group": "Partial block",
+  "summary": "Luton to St Albans 2 or 3 track railway slow lines Blocked / Luton to St Albans 2 or 3 track railway fast lines Blocked",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx (PEAK)",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run to West Hampstead"
+   },
+   {
+    "group": "9Oxx",
+    "od": "Sutton to St Albans via Wimbledon",
+    "action": "Alteration",
+    "plan": "SLOW LINES BLOCKED: Run as booked\n\nFAST LINES BLOCKED: Cancelled"
+   },
+   {
+    "group": "9Vxx",
+    "od": "Sutton to St Albans via Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Rainham – Dartford shuttle"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Alteration",
+    "plan": "SLOW LINES BLOCKED: Run as booked\n\nFAST LINES BLOCKED: Cancelled"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "SLOW LINES BLOCKED: Run as booked\n\nFAST LINES BLOCKED: 1 TPH"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 150
+ },
+ {
+  "plan_code": "MML-5",
+  "title": "St Albans",
+  "scenario_group": "Full block",
+  "summary": "All Lines blocked St Albans",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run to Kentish Town PM peak\nRun to West Hampstead AM peak"
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Rxx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: 2TPH 9R Bedford to Harpenden (all stations)"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Rainham - Dartford shuttle\nRun PM peak to Kentish Town"
+   },
+   {
+    "group": "9Txx",
+    "od": "Bedford to Brighton",
+    "action": "Alteration",
+    "plan": "Only run London Bridge to Brighton"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "1 TPH Luton to Corby only (platform 4 at Luton)"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Luton to Notts only (Platform 4 at Luton)"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Leicester to Sheffield only (consider running to Kettering)"
+   }
+  ],
+  "docs": [],
+  "sort_order": 160
+ },
+ {
+  "plan_code": "MML-5a",
+  "title": "St Albans Centre Sidings",
+  "scenario_group": "Partial block",
+  "summary": "Loss of St Albans Centre Sidings",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Oxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Vxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Alteration",
+    "plan": "1TPH to divert opposite way around Wimbledon Loop\nExtend to Harpenden and driver change ends (crew marshal required)"
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "To only run as far as West Hampstead/Kentish Town"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "ALL EMR SERVICES",
+    "od": "St Pancras to Sheffield / Nottingham / Corby",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 170
+ },
+ {
+  "plan_code": "MML-6",
+  "title": "St Albans to Radlett",
+  "scenario_group": "Full block",
+  "summary": "All Lines Blocked, St Albans to Radlett",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run to Kentish Town PM peak\nRun to West Hampstead AM peak"
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: 2 TPH Run as 9R Bedford to Harpenden (all stations)\nSOUTH OF BLOCK: London Bridge to Brighton"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Rainham - Dartford shuttle"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "Run Luton to Corby only"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Slow)",
+    "action": "Alteration",
+    "plan": "Run Luton to Notts only"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "Run Leicester to Sheffield only (consider running to Kettering or Bedford)"
+   }
+  ],
+  "docs": [],
+  "sort_order": 180
+ },
+ {
+  "plan_code": "MML-6a",
+  "title": "St Albans to Radlett Reduced Capacity",
+  "scenario_group": "Partial block",
+  "summary": "St Albans to Radlett, 2 or 3 track railway, Fast line, Blocked / St Albans to Radlett, 2 or 3 track railway, Slow lines, Blocked",
+  "assumptions": "",
+  "constraints": "***If EMR request cancellation of the connect to run a Corby - Wellingborough Shuttle\nadditional Intercity they will SSO Luton Airport on the up and Bedford on the down.",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Alteration",
+    "plan": "Luton - Bedford Shuuttle"
+   },
+   {
+    "group": "9Lxx (AM PEAK)",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (AM/PM PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Orpington - Kentish Town or WH Shuttle"
+   },
+   {
+    "group": "9Oxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Alteration",
+    "plan": "Run 1TPH"
+   },
+   {
+    "group": "9Vxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Alteration",
+    "plan": "Run 1TPH"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham and return",
+    "action": "Alteration",
+    "plan": "FAST LINES BLOCKED: Run as Dartford- Rainham shuttle\n\nSLOW LINES BLOCKED: Run as booked (SSO KTN, CRI, HEN)"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Alteration",
+    "plan": "FAST LINES BLOCKED: Cancelled\n\nSLOW LINES BLOCKED: Run as booked"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Alteration",
+    "plan": "FAST LINES BLOCKED: Cancelled\n\nSLOW LINES BLOCKED: Run as booked"
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "FAST LINES BLOCKED: 1 TPH ***\n\nSLOW LINES BLOCKED: Run as booked"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 190
+ },
+ {
+  "plan_code": "MML-7",
+  "title": "Radlett to Kentish Town",
+  "scenario_group": "Full block",
+  "summary": "All Lines Blocked, Radlett to Kentish Town",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Run in PM peak to Kentish Town"
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: 2TPH Run as 9R Bedford to Harpenden (all stations)\nSOUTH OF BLOCK: Run as 9T St Pancras to London Bridge"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Run Rainham to Dartford only"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "Run Luton to Corby only"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Slow)",
+    "action": "Alteration",
+    "plan": "Run Luton to Notts only"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "Run Leicester to Sheffield only (consider running to Bedford)"
+   }
+  ],
+  "docs": [],
+  "sort_order": 200
+ },
+ {
+  "plan_code": "MML-7a",
+  "title": "Radlett to West Hampstead South Reduced Capacity",
+  "scenario_group": "Partial block",
+  "summary": "Radlett to West Hampstead, 2 or 3 track railway, Fast Lines, Blocked / Radlett to West Hampstead, 2 or 3 track railway, Slow Lines, Blocked",
+  "assumptions": "",
+  "constraints": "***If EMR request cancellation of the connect to run a Corby - Wellingborough Shuttle\nadditional Intercity they will SSO Luton Airport on the up and Bedford on the down.",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Alteration",
+    "plan": "FAST LINES BLOCKED: Luton - Bedford Shuttle\n\nSLOW LINES BLOCKED: Luton - Bedford Shuuttle"
+   },
+   {
+    "group": "9Lxx (AM PEAK)",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (AM/PM PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Alteration",
+    "plan": "Orpington - Kentish Town or WH Shuttle"
+   },
+   {
+    "group": "9Oxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Alteration",
+    "plan": "Run 1TPH"
+   },
+   {
+    "group": "9Vxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Alteration",
+    "plan": "Run 1TPH"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham and return",
+    "action": "Alteration",
+    "plan": "Run as Dartford- Rainham shuttle"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "1 TPH ***"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Normal working",
+    "plan": "Run as booked SSO Kettering on the up"
+   }
+  ],
+  "docs": [],
+  "sort_order": 210
+ },
+ {
+  "plan_code": "MML-7b",
+  "title": "St Albans to Kentish Town Reduced Capacity",
+  "scenario_group": "Partial block",
+  "summary": "Carlton Road Junction, Moving to red status i.e. points stuck in Normal/Reverse",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Normal working",
+    "plan": "Regulate fast at West Hampstead South Jn"
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Normal working",
+    "plan": "Regulate fast at West Hampstead South Jn"
+   },
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Alteration",
+    "plan": "Remove 9Oxx’s\n\nIf red status is triggered remove 9Oxx’s"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Notts (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 220
+ },
+ {
+  "plan_code": "MML-8",
+  "title": "Kentish Town",
+  "scenario_group": "Full block",
+  "summary": "Kentish Town Blocked",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "9Rxx",
+    "od": "Brighton to Bedford and return",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: 2TPH 9R Bedford to West Hampstead (all stations)"
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Alteration",
+    "plan": "Run Rainham to Dartford only"
+   },
+   {
+    "group": "9Txx",
+    "od": "",
+    "action": "Alteration",
+    "plan": "During ITSR Huddle review if a Luton to Bedford Shuttle can be added in as a 9G (Platform 2 at Luton)"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "1 TPH Luton to Corby only (platform 4 at Luton)"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Luton to Notts only (Platform 4 at Luton)"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Leicester to Sheffield only (running to Kettering)"
+   }
+  ],
+  "docs": [],
+  "sort_order": 230
+ },
+ {
+  "plan_code": "MML-9",
+  "title": "St Pancras High Level",
+  "scenario_group": "Full block",
+  "summary": "No access to St Pancras High Level",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "9Rxx",
+    "od": "Three Bridges to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Lxx",
+    "od": "East Grinstead to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Kxx (PEAK)",
+    "od": "Orpington to Luton and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9O/Vxx",
+    "od": "Sutton to St Albans and return via Wimbledon / Mitcham",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Txx",
+    "od": "Brighton to Bedford and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Pxx",
+    "od": "Luton to Rainham (Kent) and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "9Jxx",
+    "od": "Peterborough to Horsham and return",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Fast)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Y (EMR)",
+    "od": "St Pancras to Corby",
+    "action": "Alteration",
+    "plan": "1 TPH from Kentish Town\n\nUse platform 4 in and out (same crew resources to look to step up traincrew)"
+   },
+   {
+    "group": "1B/1D (EMR)",
+    "od": "St Pancras to Nottingham (Slow)",
+    "action": "Alteration",
+    "plan": "1 TPH Terminate at Luton\n\nUse platform 4"
+   },
+   {
+    "group": "1C/1F (EMR)",
+    "od": "St Pancras to Sheffield (Slow)",
+    "action": "Alteration",
+    "plan": "Terminate Leicester\n\nLeicester to Sheffield shuttle"
+   }
+  ],
+  "docs": [],
+  "sort_order": 240
+ },
+ {
+  "plan_code": "MML-N1",
+  "title": "Bedford-Kettering (Exclusive)",
+  "scenario_group": "Full block",
+  "summary": "Bedford-Kettering Blocked, Access to Both Bedford and Kettering Stations",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nConsider traincrew marshals at Leicester to manage services terminating from the North.\nMust be full crew working ex St. Pancras for terminating at Bedford",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield – Leicester **Ivanhoe to Use Platform 1** — Step up sets at Leicester. Surplus stock onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Terminates Kettering — Step up sets at Kettering. Surplus stock onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Operate hourly Kettering-Corby Shuttle — **If resource permits**\n\nSOUTH OF BLOCK: Terminate Bedford — Hourly service maintained. Sets stepped up at Bedford Consider using 222/810 stock if required"
+   }
+  ],
+  "docs": [],
+  "sort_order": 250
+ },
+ {
+  "plan_code": "MML-N1a",
+  "title": "Bedford-Kettering (Exclusive) 2 or 3 Path",
+  "scenario_group": "Partial block",
+  "summary": "Bedford-Kettering Blocked, Access to Both Bedford and Kettering Stations",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nMust be full crew working ex St. Pancras for terminating at Bedford",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Operate hourly Kettering-Corby Shuttle\n\nSOUTH OF BLOCK: Terminate Bedford — Half-hourly service maintained. Sets stepped up at Bedford"
+   }
+  ],
+  "docs": [],
+  "sort_order": 260
+ },
+ {
+  "plan_code": "MML-N2",
+  "title": "Bedford (Not Available) - Kettering (Available)",
+  "scenario_group": "Full block",
+  "summary": "Bedford-Kettering Blocked, No Access to Bedford, Access to Kettering",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nConsider traincrew marshals at Leicester to manage services terminating from the North.",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield – Leicester **Ivanhoe to Use Platform 1** — Step up sets at Leicester. Surplus stock onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Terminates Kettering — Step up sets at Kettering. Surplus stock onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Operate hourly Kettering-Corby Shuttle — **If resource permits**\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   }
+  ],
+  "docs": [],
+  "sort_order": 270
+ },
+ {
+  "plan_code": "MML-N2a",
+  "title": "Bedford (Not Available) - Kettering (Available) 2 or 3 Path",
+  "scenario_group": "Partial block",
+  "summary": "Bedford-Kettering Blocked, No Access to Bedford, Access to Kettering",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Operate hourly Kettering-Corby Shuttle\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   }
+  ],
+  "docs": [],
+  "sort_order": 280
+ },
+ {
+  "plan_code": "MML-N3",
+  "title": "Bedford (Exclusive)-Kettering (Inclusive)",
+  "scenario_group": "Full block",
+  "summary": "Bedford-Kettering Blocked, Access to Bedford, No Access to Kettering",
+  "assumptions": "BLOCK between Bedford and Kettering",
+  "constraints": "Maximise Rolling Stock formations where possible\nConsider traincrew marshals at Leicester to manage services terminating from the North.\nMust be full crew working ex St. Pancras for terminating at Bedford",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield – Leicester **Ivanhoe to Use Platform 1** — Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Nottingham - Leicester — Step up sets at Leicester Surplus stock onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Step up sets at Leicester Surplus stock onto Etches Park.\n\nSOUTH OF BLOCK: Hourly service maintained. — Stock ECS onto Cricklewood/stabled St Pancras"
+   }
+  ],
+  "docs": [],
+  "sort_order": 290
+ },
+ {
+  "plan_code": "MML-N3a",
+  "title": "Bedford (Exclusive)-Kettering (Inclusive) 2 or 3 Path",
+  "scenario_group": "Partial block",
+  "summary": "Bedford-Kettering Blocked, Access to Bedford, No Access to Kettering",
+  "assumptions": "BLOCK between Bedford and Kettering",
+  "constraints": "Maximise Rolling Stock formations where possible\nMust be full crew working ex St. Pancras for terminating at Bedford",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Terminate Bedford — Half-hourly service maintained. Sets stepped up at Bedford"
+   }
+  ],
+  "docs": [],
+  "sort_order": 300
+ },
+ {
+  "plan_code": "MML-N4",
+  "title": "Kettering-Leicester Blocked Manton Route Not Available",
+  "scenario_group": "Full block",
+  "summary": "Kettering – Leicester Blocked, Manton Route Not Available",
+  "assumptions": "",
+  "constraints": "XC alterations only applicable if Wigston Jn not available.\nConsider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield – Leicester **Ivanhoe to Use Platform 1** — Step up sets at Leicester. Surplus stock onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Nottingham - Leicester — Step up sets at Leicester Surplus stock onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donnington/Tamworth\n\nPull route conductors from 1Pxx / 1Kxx as this is the priority service"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Limited service to run between between Birmingham and Nuneaton subject to train crew availability\n\nReplacement buses between Nuneaton and Leicester"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Normal working",
+    "plan": "Hourly service maintained. Consider FTS Luton & Bedford"
+   }
+  ],
+  "docs": [],
+  "sort_order": 310
+ },
+ {
+  "plan_code": "MML-N4a",
+  "title": "Kettering-Leicester Blocked Manton Route Not Available (2 or 3 Paths)",
+  "scenario_group": "Partial block",
+  "summary": "Kettering – Leicester Blocked, Manton Route Not Available",
+  "assumptions": "",
+  "constraints": "XC alterations only applicable if Wigston Jn not available.\nConsider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donnington/Tamworth\n\nPull route conductors from 1Pxx / 1Kxx as this is the priority service"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Limited service to run between Birmingham and Nuneaton subject to train crew availability\n\nReplacement buses between Nuneaton and Leicester"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Normal working",
+    "plan": "Hourly service maintained."
+   }
+  ],
+  "docs": [],
+  "sort_order": 320
+ },
+ {
+  "plan_code": "MML-N5",
+  "title": "Kettering – Leicester - Manton Route Available",
+  "scenario_group": "Full block",
+  "summary": "Kettering - Leicester Blocked, Manton available",
+  "assumptions": "",
+  "constraints": "XC alterations only applicable if Wigston Jn not available.\nConsider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Manton\n\nSSO Long Eaton"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Suspend",
+    "plan": "Rolling Stock ECS onto Etches Park/Cricklewood"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "Rolling Stock ECS onto Etches Park/Cricklewood"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert via Manton\n\nFTS Leicester"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15 St Pancras / XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1 TPH\n\nMay need to shunt at Corby"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donnington/Tamworth\n\nPull route conductors from 1Pxx / 1Kxx as this is the priority service"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Limited service to run between between Birmingham and Nuneaton subject to train crew availability\n\nReplacement buses between Nuneaton and Leicester"
+   }
+  ],
+  "docs": [],
+  "sort_order": 330
+ },
+ {
+  "plan_code": "MML-N5a",
+  "title": "Kettering – Leicester - Manton Route Available (2 or 3 Path)",
+  "scenario_group": "Partial block",
+  "summary": "Kettering - Leicester Blocked, Manton available",
+  "assumptions": "",
+  "constraints": "XC alterations only applicable if Wigston Jn not available\nConsider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train\n2tph each way XC to run full service. Reduce to 1 and 1 freight if required. Priority to Stansted",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Manton\n\nSSO Long Eaton"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Suspend",
+    "plan": "Rolling Stock ECS onto Etches Park/Cricklewood"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "Rolling Stock ECS onto Etches Park/Cricklewood"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert via Manton\n\nFTS Leicester"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15 St Pancras / XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\nMay need to shunt at Corby"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stansted - Birmingham New Street",
+    "action": "Normal working",
+    "plan": "SSO South Wigston, Narborough and Hinckley ( B'ham - Leicester not running)"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Run between Birmingham and Nuneaton only around freight paths if no freight will run as booked\n\n**Subject to traincrew**"
+   }
+  ],
+  "docs": [],
+  "sort_order": 340
+ },
+ {
+  "plan_code": "MML-N6",
+  "title": "Leicester (Available) - Loughborough (Available) - Manton Not Available",
+  "scenario_group": "Full block",
+  "summary": "Leicester - Loughborough, Blocked, Manton not available, Leicester Available from the South and Loughborough available from the North",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield - Loughborough — Depart at XX:47 to Sheffield\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Terminate Leicester — Depart at XX:43 to London"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\nHourly service maintained."
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Split service to run Birmingham - Leicester and Stanstead - Peterborough *Run normally if issue North of Syston and peterborugh line open throughout*\n\nReplacement buses between Leicester and Peterborough"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 350
+ },
+ {
+  "plan_code": "MML-N6a",
+  "title": "Leicester (Available) - Loughborough (Available) - Manton Not Available 2 or 3 Path",
+  "scenario_group": "Partial block",
+  "summary": "Leicester - Loughborough, Blocked, Manton not available, Leicester Available from the South and Loughborough available from the North",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Terminate Leicester — Depart at XX:13 to London"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Normal working",
+    "plan": "Half-hourly service maintained."
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Split service to run Birmingham - Leicester and Stanstead - Peterborough *Run normally if issue North of Syston and peterborugh line open throughout*"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 360
+ },
+ {
+  "plan_code": "MML-N7",
+  "title": "Leicester (Available) –Syston Manton Route Available",
+  "scenario_group": "Full block",
+  "summary": "Leicester - Syston, Manton Route Available, Leicester available from the South",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train\n2tph each way XC to run full service. Reduce to 1 and 1 freight if required. Priority to Stanstead",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate at Leicester"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Loughborough\n\nDepart at XX07 from Loughborough to Grimsby"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15 St Pancras / XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\nMay need to shunt at Corby"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Split service to run Birmingham - Leicester and Stanstead - Peterborough\n\nReplacement buses between Leicester and Peterborough"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 370
+ },
+ {
+  "plan_code": "MML-N7a",
+  "title": "Leicester (Available) –Syston Manton Route Available Paths",
+  "scenario_group": "Partial block",
+  "summary": "Leicester - Syston, Manton Route Available, Leicester available from the South",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate at Leicester"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15 St Pancras / XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\nMay need to shunt at Corby"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 380
+ },
+ {
+  "plan_code": "MML-N8",
+  "title": "Leicester (Not Available) –Syston Manton Route Available",
+  "scenario_group": "Full block",
+  "summary": "Leicester - Syston, Manton Route Available, Leicester NOT available",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15 St Pancras / XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\nMay need to shunt at Corby"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Run Stanstead - Peterborough\n\nReplacement buses between Nuneaton, Leicester and Peterborough"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Run between Birmingham and Nuneaton only\n\nReplacement buses between Nuneaton and Leicester"
+   }
+  ],
+  "docs": [],
+  "sort_order": 390
+ },
+ {
+  "plan_code": "MML-N8a",
+  "title": "Leicester (Not Available) –Syston Manton Route Available 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "Leicester - Syston, Manton Route Available, Leicester NOT available",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nFreight to be assessed train by train\n2tph each way XC to run full service. Reduce to 1 and 1 freight if required. Priority to Stanstead",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert via Manton Do not call at Leicester\n\nFTS Leicester"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15 St Pancras / XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\nMay need to shunt at Corby"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Normal working",
+    "plan": ""
+   }
+  ],
+  "docs": [],
+  "sort_order": 400
+ },
+ {
+  "plan_code": "MML-N9",
+  "title": "Leicester (Unvailable) - Loughborough (Available) - Manton Not Available",
+  "scenario_group": "Full block",
+  "summary": "Leicester - Loughborough, All Lines Blocked, Manton Route Not Available, Leicester Station not available",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield - Loughborough — Depart at XX:47 to Sheffield\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Normal working",
+    "plan": "**Subject to train crew**"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Run Stanstead - Peterborough\n\nReplacement buses between Leicester and Peterborough"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Run between Birmingham and Nuneaton only\n\nReplacement buses between Nuneaton and Leicester"
+   }
+  ],
+  "docs": [],
+  "sort_order": 410
+ },
+ {
+  "plan_code": "MML-N9a",
+  "title": "Leicester (Unvailable) - Loughborough (Available) - Manton Not Available 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "Leicester - Loughborough, All Lines Blocked, Manton Route Not Available, Leicester Station not available",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: Depart at XX:47 to Sheffield\n\nSOUTH OF BLOCK: Depart at XX:47 to Sheffield"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Etches Park."
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Terminate Loughborough"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Normal working",
+    "plan": "**Subject to train crew**"
+   },
+   {
+    "group": "1Lxx / 1Nxx",
+    "od": "Stanstead - Birmingham New Street",
+    "action": "Alteration",
+    "plan": "Run Stanstead - Peterborough\n\nReplacement buses between Leicester and Peterborough"
+   },
+   {
+    "group": "1Pxx / 1Kxx",
+    "od": "Birmingham - Leicester",
+    "action": "Alteration",
+    "plan": "Run between Birmingham and Nuneaton only\n\nReplacement buses between Nuneaton and Leicester"
+   }
+  ],
+  "docs": [],
+  "sort_order": 420
+ },
+ {
+  "plan_code": "MML-N10",
+  "title": "Loughborough (Unavailable) – Trent South Jn",
+  "scenario_group": "Full block",
+  "summary": "Loughborough – Trent South Jn all Lines Blocked",
+  "assumptions": "",
+  "constraints": "Consider traincrew marshals at Leicester to manage services terminating from the North\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield-Derby — Depart at XX28 Derby-Sheffield\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Suspend",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Terminate Leicester — Depart at XX:13 to London"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Terminate Leicester — Depart at XX:43 to London"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Terminate Nottingham"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Alteration",
+    "plan": "1TPH\n\n**Due to train crew limitations**"
+   },
+   {
+    "group": "5GXX / 5MXX",
+    "od": "",
+    "action": "Alteration",
+    "plan": "Divert via Nuneaton and associated class 1 amended as required"
+   }
+  ],
+  "docs": [],
+  "sort_order": 430
+ },
+ {
+  "plan_code": "MML-N10a",
+  "title": "Loughborough (Unavailable) – Trent South Jn 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "Loughborough – Trent South Jn",
+  "assumptions": "",
+  "constraints": "Consider paths for XC ECS moves 5Gxx & 5Mxx\nConsider traincrew marshals at Leicester\nIf no access to Corby then start/terminate at Kettering\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Runs Sheffield-Derby — Depart at XX28 Derby-Sheffield\n\nSOUTH OF BLOCK: Stock ECS onto Cricklewood/stabled St Pancras"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "NORTH OF BLOCK: Stock ECS onto Etches Park.\n\nSOUTH OF BLOCK: Terminate Leicester — Depart at XX:13 to London"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": "NORTH OF BLOCK: RUN AS BOOKED\n\nSOUTH OF BLOCK: RUN AS BOOKED"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Alteration",
+    "plan": "Terminate Nottingham"
+   },
+   {
+    "group": "1Hxx Up / 1Yxx Down",
+    "od": "Corby (XX:15, XX:45 St Pancras / XX:11, XX:40 Corby)",
+    "action": "Normal working",
+    "plan": "Half-hourly service maintained."
+   }
+  ],
+  "docs": [],
+  "sort_order": 440
+ },
+ {
+  "plan_code": "MML-N11",
+  "title": "Trent East Jn – Mansfield Jn (All Lines Blocked)",
+  "scenario_group": "Full block",
+  "summary": "Trent East Jn – Mansfield Jn, All Lines BLOCKED",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nOption to divert Nottingham Fast services via Toton, Ilkeston Jn (Reverse) and Radford Jn if route knowledge allows\nXC To be decided on the Huddle – where infrastructure is available 1TPH may extend to either Long Eaton and shunt via Down Trent Passenger Loop, or Beeston and shunt via Beeston South Junction. SSOs for Spondon, Long Eaton, Attenborough, and Beeston.\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert to Derby/Start Derby"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate East Midlands Parkway 7 Car maximum\n\nShunt via Trent Down Passenger Loop"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 2Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Newark Castle-Nottingham and Derby-Crewe"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock\n\n**Aspire to resource Nottingham Lincoln shuttle if able to**"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton."
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton."
+   }
+  ],
+  "docs": [],
+  "sort_order": 450
+ },
+ {
+  "plan_code": "MML-N11a",
+  "title": "Trent East Jn – Mansfield Jn 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "Trent East Jn – Mansfield Jn",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nOption to divert Nottingham Fast services via Toton, Ilkeston Jn (Reverse) and Radford Jn if route knowledge allows\nTo be decided on the Huddle – where infrastructure is available 1TPH may extend to either Long Eaton and shunt via Down Trent Passenger Loop, or Beeston and shunt via Beeston South Junction. SSOs for Spondon, Long Eaton, Attenborough, and Beeston.\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert to Derby/Start Derby"
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Newark Castle-Nottingham and Derby-Crewe"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock\n\n**Aspire to resource Nottingham Lincoln shuttle if able to**"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "1Dxx terminate Derby forms 1Vxx\n\nService groups from opposing return working"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "1Mxx terminate Nottingham to form 1Gxx\n\nService groups from opposing return working SSO's Beeston, Long Eaton and Spondon"
+   }
+  ],
+  "docs": [],
+  "sort_order": 460
+ },
+ {
+  "plan_code": "MML-N12",
+  "title": "Mansfield Jn – Nottingham (Available) Blocked",
+  "scenario_group": "Full block",
+  "summary": "Mansfield Jn - Nottingham, All Lines BLOCKED",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nXC To be decided on the Huddle – where infrastructure is available 1TPH may extend to either Long Eaton and shunt via Down Trent Passenger Loop, or Beeston and shunt via Beeston South Junction. SSOs for Spondon, Long Eaton, Attenborough, and Beeston.\nBEESTON SHUNT SINGLE UNIT ONLY\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Beeston\n\nShunt via Beeston Sth Jun"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Newark Castle-Nottingham and Derby-Crewe"
+   },
+   {
+    "group": "2Wxx / 2Hxx / 2Dxx",
+    "od": "Robin Hood Line",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Runs Nottingham-Norwich\n\nUnits trapped north of block to run ECS Sheffield-Etches Park"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock\n\n**Aspire to resource Nottingham Lincoln shuttle if able to**"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton. *Beeston Turnback ref email**"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton. *Beeston Turnback ref email**"
+   },
+   {
+    "group": "1Yxx",
+    "od": "Leeds - Nottingham",
+    "action": "Alteration",
+    "plan": "Start Terminate Alfreton\n\nShunt via Up and down Slow"
+   }
+  ],
+  "docs": [],
+  "sort_order": 470
+ },
+ {
+  "plan_code": "MML-N12a",
+  "title": "Mansfield Jn – Nottingham (Available) 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "Trent East Jn – Mansfield Jn",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert to Derby/Start Derby\n\nStock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Newark Castle-Nottingham and Derby-Crewe"
+   },
+   {
+    "group": "2Wxx / 2Hxx / 2Dxx",
+    "od": "Robin Hood Line",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Runs Nottingham-Norwich\n\nUnits trapped north of block to run ECS Sheffield-Etches Park"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock\n\n**Aspire to resource Nottingham Lincoln shuttle if able to**"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton."
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "1Mxx terminate Nottingham to form 1Gxx\n\nService groups from opposing return working SSO's Beeston, Long Eaton and Spondon"
+   }
+  ],
+  "docs": [],
+  "sort_order": 480
+ },
+ {
+  "plan_code": "MML-N13",
+  "title": "No Access to Nottingham Station (All Lines Blocked)",
+  "scenario_group": "Full block",
+  "summary": "No Access to Nottingham Station, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nXC To be decided on the Huddle – where infrastructure is available 1TPH may extend to either Long Eaton and shunt via Down Trent •Passenger Loop, or Beeston and shunt via Beeston South Junction. SSOs for Spondon, Long Eaton, Attenborough, and Beeston.\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Suspend",
+    "plan": "Stock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Beeston\n\nShunt via Beeston Sth Jun"
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Derby – Crewe"
+   },
+   {
+    "group": "2Wxx / 2Hxx / 2Dxx",
+    "od": "Robin Hood Line",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "2Sxx / 2Oxx",
+    "od": "Nottingham - Skegness",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Runs Grantham-Norwich\n\nUnits trapped north of block to run ECS Sheffield-Etches Park"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton."
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nThe first trains southbound and the last trains northbound should start/ terminate at Long Eaton."
+   },
+   {
+    "group": "1Yxx",
+    "od": "Leeds - Nottingham",
+    "action": "Alteration",
+    "plan": "Start Terminate Alfreton\n\nShunt via Up and down Slow"
+   }
+  ],
+  "docs": [],
+  "sort_order": 490
+ },
+ {
+  "plan_code": "MML-N13a",
+  "title": "No Access to Nottingham Station 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "No Access to Nottingham Station",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nXC To be decided on the Huddle – where infrastructure is available 1TPH may extend to either Long Eaton and shunt via Down Trent Passenger Loop, or Beeston and shunt via Beeston South Junction. SSOs for Spondon, Long Eaton, Attenborough, and Beeston.\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Fast (XX:34 St Pancras / XX:50 Nottingham)",
+    "action": "Alteration",
+    "plan": "Divert to Derby/Start Derby\n\nStock ECS onto Etches Park."
+   },
+   {
+    "group": "1Bxx Up / 1Dxx Down",
+    "od": "Nottingham Stopper (XX:05 St Pancras / XX:12 Nottingham)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "2Pxx",
+    "od": "Leicester – Nottingham (XX:31 Leicester / XX:33 Nottingham)",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Derby – Crewe"
+   },
+   {
+    "group": "2Wxx / 2Hxx / 2Dxx",
+    "od": "Robin Hood Line",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "2Sxx",
+    "od": "Nottingham - Skegness",
+    "action": "Alteration",
+    "plan": "Runs Grantham – Skegness"
+   },
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Runs Grantham-Norwich\n\nUnits trapped north of block to run ECS Sheffield-Etches Park"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nService groups from opposing return working"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nService groups from opposing return working"
+   }
+  ],
+  "docs": [],
+  "sort_order": 500
+ },
+ {
+  "plan_code": "MML-N14",
+  "title": "Sheet Stores Jn – Derby (Available)",
+  "scenario_group": "Full block",
+  "summary": "Sheets Stores Jn – Derby (Available), All Lines Blocked",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Erewash Valley NOT Calling at Derby **Train crew permitting**\n\nSSO East Midlands Parkway"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Start/Terminate East Midlands Parkway\n\nShunt via Trent Down Passenger Loop"
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Nottingham - Newark Castle and Derby - Crewe"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock\n\n**Aspire to resource Nottingham Lincoln shuttle if able to**"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "1Dxx terminate Derby forms 1Vxx\n\nService groups from opposing return working"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "1Mxx terminate Nottingham to form 1Gxx Divert Via castle Donington\n\nService groups from opposing return working"
+   }
+  ],
+  "docs": [],
+  "sort_order": 510
+ },
+ {
+  "plan_code": "MML-N14a",
+  "title": "Sheet Stores Jn – Derby (Available) 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "Sheets Stores Jn – Derby (Available)",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Erewash Valley NOT Calling at Derby **Train crew permitting**"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Nottingham - Newark Castle and Derby - Crewe"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Derby - Matlock\n\n**Aspire to resource Nottingham Lincoln shuttle if able to**"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "1Dxx terminate Derby forms 1Vxx\n\nService groups from opposing return working"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "1Mxx terminate Nottingham to form 1Gxx\n\nService groups from opposing return working SSO's Beeston, Long Eaton and Spondon"
+   }
+  ],
+  "docs": [],
+  "sort_order": 520
+ },
+ {
+  "plan_code": "MML-N15",
+  "title": "No Access to Derby Station",
+  "scenario_group": "Full block",
+  "summary": "No Access to Derby Station, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train\nTo resource last trains to divert via Castle Don and Erewash to balance stock",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Erewash Valley NOT Calling at Derby\n\nSSO East Midlands Parkway"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Start/Terminate East Midlands Parkway\n\nShunt via Trent Down Passenger Loop"
+   },
+   {
+    "group": "1Kxx West / 2Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run between Newark Castle and Nottingham"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Lincoln - Nottingham"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donnington AND the Erewash, or via Leicester AND the Erewash"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donnington AND the Erewash, or via Leicester AND the Erewash"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Full service to operate diverting via Erewash Valley **Subject to driver knowledge**\n\n**If no driver knowledge services Full service south of Birmingham Limited service north of Sheffield/leeds to Edinburgh"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 530
+ },
+ {
+  "plan_code": "MML-N15a",
+  "title": "No Access to Derby Station 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "No Access to Derby Station",
+  "assumptions": "",
+  "constraints": "Driver required at East Midlands Parkway for Shunts\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Erewash Valley NOT Calling at Derby\n\nSSO East Midlands Parkway"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Kxx West / 1Nxx East",
+    "od": "Lincoln - Crewe",
+    "action": "Alteration",
+    "plan": "Run Newark Castle-Nottingham and Peartree-Crewe"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Lincoln - Nottingham"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donington"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donington"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 540
+ },
+ {
+  "plan_code": "MML-N16",
+  "title": "Derby (Available) – Ambergate Jn All Lines Blocked",
+  "scenario_group": "Full block",
+  "summary": "Access to Derby Station, All Lines Blocked Derby - Ambergate",
+  "assumptions": "",
+  "constraints": "If Route knowledge doesn’t allow to divert then services to start/terminate Derby.\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Toton Centre and Erewash Valley calling at Derby"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nShunt via Chadd Curve/Step upp"
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock",
+    "action": "Alteration",
+    "plan": "Shuttle - Lincoln - Nottingham"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Full service to operate diverting via Erewash Valley **Subject to driver knowledge**"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 550
+ },
+ {
+  "plan_code": "MML-N16a",
+  "title": "Derby (Available) – Ambergate Jn 2 Paths",
+  "scenario_group": "Partial block",
+  "summary": "No Access to Derby Station",
+  "assumptions": "",
+  "constraints": "If Route knowledge doesn’t allow to divert then services to start/terminate Derby.\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Toton Centre and Erewash Valley calling at Derby"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "2Axx / 2J/2Nxx",
+    "od": "Lincoln - Matlock/Cleethorpes",
+    "action": "Alteration",
+    "plan": "Shuttle - Lincoln - Nottingham"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Normal working",
+    "plan": ""
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 560
+ },
+ {
+  "plan_code": "MML-N17",
+  "title": "Ambergate Jn (Available) – Clay Cross North Jn All Lines Blocked",
+  "scenario_group": "Full block",
+  "summary": "Ambergate Jn – Clay Cross North Jn, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "If Route knowledge doesn’t allow to divert then services to start/terminate Derby.\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Divert via Toton Centre and Erewash Valley calling at Derby"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nShunt via Chadd Curve/Step upp"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Full service to operate diverting via Erewash Valley"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham **Possibly extend to Derby**\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 570
+ },
+ {
+  "plan_code": "MML-N18",
+  "title": "Mansfield Jn – Radford Jn All Lines Blocked",
+  "scenario_group": "Full block",
+  "summary": "Mansfield Jn – Radford Jn, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "",
+  "steps": [
+   {
+    "group": "2H/2D",
+    "od": "Nottingham-Mansfield",
+    "action": "Suspend",
+    "plan": ""
+   },
+   {
+    "group": "2W/2D",
+    "od": "Nottingham-Worksop",
+    "action": "Alteration",
+    "plan": "Divert via Attenborough Jn, Toton Centre and Pinxton **Check driver knowledge**"
+   },
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Divert via Attenborough Jn and Toton Centre or via Derby"
+   },
+   {
+    "group": "1Yxx",
+    "od": "Leeds - Nottingham",
+    "action": "Normal working",
+    "plan": "TBC in Huddle"
+   }
+  ],
+  "docs": [],
+  "sort_order": 580
+ },
+ {
+  "plan_code": "MML-N19",
+  "title": "Radford Jn – Trowell Jn All Lines Blocked",
+  "scenario_group": "Full block",
+  "summary": "Radford Jn - Trowell, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "ECS moves booked via Erewash to divert via Robinhood",
+  "steps": [
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Divert via Attenborough Jn and Toton Centre or via Derby"
+   },
+   {
+    "group": "1Yxx",
+    "od": "Leeds - Nottingham",
+    "action": "Normal working",
+    "plan": "TBC in Huddle"
+   }
+  ],
+  "docs": [],
+  "sort_order": 590
+ },
+ {
+  "plan_code": "MML-N20",
+  "title": "Trowell Jn – Clay Cross North Jn All Lines Blocked",
+  "scenario_group": "Full block",
+  "summary": "Trowell Jn – Clay Cross North Jn, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "ECS moves booked via Erewash to divert via Robinhood",
+  "steps": [
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Divert via Derby\n\nLook at options to restart Norwich services right time due to the delay in running via Derby"
+   },
+   {
+    "group": "1Yxx",
+    "od": "Leeds - Nottingham",
+    "action": "Alteration",
+    "plan": "Terminate Chesterfield\n\nTBC in Huddle"
+   }
+  ],
+  "docs": [],
+  "sort_order": 600
+ },
+ {
+  "plan_code": "MML-N21",
+  "title": "Clay Cross North Jn – Tapton Jn All Lines Blocked",
+  "scenario_group": "Full block",
+  "summary": "Clay Cross North Jn – Tapton Jn, All Lines Blocked",
+  "assumptions": "",
+  "constraints": "If Route knowledge doesn’t allow to divert then services to start/terminate Derby.\nMaximise Rolling Stock formations where possible\nFreight to be assessed train by train",
+  "steps": [
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Fast (XX:02 St Pancras / XX:37 Sheffield)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nShunt via Chadd Curve/Step up"
+   },
+   {
+    "group": "1Cxx Up / 1Fxx Down",
+    "od": "Sheffield Stopper (XX:32 St Pancras / XX:00 Sheffield)",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby\n\nShunt via Chadd Curve/Step up"
+   },
+   {
+    "group": "1Rxx West / 1Lxx East",
+    "od": "Liverpool-Norwich",
+    "action": "Alteration",
+    "plan": "Split Service Liverpool-Sheffield Nottingham-Norwich\n\nRun as 1Zxx Nottingham-Norwich"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Start/Terminate Derby -South Start/Terminate sheffield or Leeds - North"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   },
+   {
+    "group": "1Yxx",
+    "od": "Leeds - Nottingham",
+    "action": "Alteration",
+    "plan": "Run Leeds - Sheffield"
+   }
+  ],
+  "docs": [],
+  "sort_order": 610
+ },
+ {
+  "plan_code": "MML-N22",
+  "title": "London Road Jn - Stenson (Available)",
+  "scenario_group": "Full block",
+  "summary": "London Road Jn - Stenson (available)",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nFreight to be assessed train by train\nTo resource last trains to divert via Castle Don and Erewash to balance stock",
+  "steps": [
+   {
+    "group": "1Kxx West / 2Nxx East",
+    "od": "Newark Castle - Crewe",
+    "action": "Alteration",
+    "plan": "Run between Newark Castle and Derby\n\n**May need to shunt on/off Chaddeson Siding to free platforms"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donington"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Divert via Castle Donington"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Limited service via Leicester - Train by Train due to resourcing limitations North services to run Derby - Edinburgh"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 620
+ },
+ {
+  "plan_code": "MML-N23",
+  "title": "London Road Jn - Stenson (Not Available)",
+  "scenario_group": "Full block",
+  "summary": "London Road Jn - Stenson (Not available)",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nFreight to be assessed train by train\nTo resource last trains to divert via Castle Don and Erewash to balance stock",
+  "steps": [
+   {
+    "group": "1Kxx West / 2Nxx East",
+    "od": "Newark Castle - Crewe",
+    "action": "Alteration",
+    "plan": "Run between Newark Castle and Derby\n\n**May need to shunt on/off Chaddeson Siding to free platforms"
+   },
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Start/Terminate at Burton"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Start/Terminate at Burton"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Limited service via Leicester - Train by Train due to resourcing limitations North services to run Derby - Edinburgh"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 630
+ },
+ {
+  "plan_code": "MML-N24",
+  "title": "Wichnor - Stenson (Access to Rivers Available)",
+  "scenario_group": "Full block",
+  "summary": "Wichnor - Stenson (Access to rivers available)",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nFreight to be assessed train by train\nTo resource last trains to divert via Castle Don and Erewash to balance stock *",
+  "steps": [
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Limited service via Leicester - Train by Train due to resourcing limitations as Birmingham based drivers do no sign Trent East to Trent South, diverted service will be required to reverse at Derby"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Limited service via Leicester - Train by Train due to resourcing limitations as Birmingham based drivers do no sign Trent East to Trent South, diverted service will be required to reverse at Derby"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Limited service via Leicester - Train by Train due to resourcing limitations North services to run Derby - Edinburgh"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Full service south of Birmingham Service withdrawn north of Birmingham\n\nNo services on the EM Route"
+   }
+  ],
+  "docs": [],
+  "sort_order": 640
+ },
+ {
+  "plan_code": "MML-N25",
+  "title": "Wichnor Jn (Available) - Tamworth",
+  "scenario_group": "Full block",
+  "summary": "Wichnor Jn (Available) - Tamwort",
+  "assumptions": "",
+  "constraints": "Maximise Rolling Stock formations where possible\nFreight to be assessed train by train\nTo resource last trains to divert via Castle Don and Erewash to balance stock",
+  "steps": [
+   {
+    "group": "1Gxx Up / 1Dxx Down",
+    "od": "Nottingham - Birmingham",
+    "action": "Alteration",
+    "plan": "Nottingham - Derby Shuttle"
+   },
+   {
+    "group": "1Vxx Up / 1Mxx Down",
+    "od": "Nottingham - Cardiff",
+    "action": "Alteration",
+    "plan": "Terminate Birmingham"
+   },
+   {
+    "group": "1Vxx Up / 1Sxx Down",
+    "od": "Scotland – South West",
+    "action": "Alteration",
+    "plan": "Divert via Litchfield **assume South Staffs open** Otherwise Limited service via Leicester - Train by Train due to resourcing limitations"
+   },
+   {
+    "group": "1Vxx Up / 1Exx Down",
+    "od": "Newcastle – Reading/ Southampton",
+    "action": "Alteration",
+    "plan": "Divert via Litchfield **assume South Staffs open** Otherwise Full service south of Birmingham Service withdrawn north of Birmingham"
+   }
+  ],
+  "docs": [],
+  "sort_order": 650
+ }
+]
